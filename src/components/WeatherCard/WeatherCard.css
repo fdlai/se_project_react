@@ -1,0 +1,24 @@
+.weather {
+  position: relative;
+  font-family: "Cabinet Grotesk", "Arial", "sans-serif";
+}
+
+.weather__image {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  object-fit: cover;
+  object-position: right;
+  border-radius: 10px 0 0 10px;
+}
+
+.weather__info {
+  position: absolute;
+  top: calc(50% - 18px);
+  left: 16px;
+  color: #fff;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 111.111% */
+}
