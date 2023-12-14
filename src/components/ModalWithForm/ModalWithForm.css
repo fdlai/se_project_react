@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,8 @@
   background: #fff;
   position: relative;
   padding: 28px 28px 36px 28px;
-  min-width: 496px;
+  width: 496px;
+  box-sizing: border-box;
 }
 
 .modal__content_type_image {
@@ -51,8 +52,28 @@
   border: none;
 }
 
+.modal__close-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.modal__close-button_type_white:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .modal__title {
   margin: 0 0 24px 0;
+}
+
+.modal__text {
+}
+
+.modal__input {
+  border: none;
+  border-bottom: 1px solid black;
+  width: 100%;
+  padding: 0 0 4px 0;
 }
 
 .modal__submit-button {
@@ -70,4 +91,10 @@
   border: none;
   background-color: #000;
   display: block;
+}
+
+@media screen and (max-width: 750px) {
+  .modal__content {
+    width: 300px;
+  }
 }

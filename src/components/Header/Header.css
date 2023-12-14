@@ -43,6 +43,18 @@
   background-color: transparent;
 }
 
+.header__button:hover {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
 .header__name {
   margin-right: 12px;
+}
+
+@media screen and (max-width: 750px) {
+  .header {
+    flex-direction: column;
+    font-size: 17px;
+  }
 }

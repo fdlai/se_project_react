@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,8 @@
   background: #fff;
   position: relative;
   padding: 28px 28px 36px 28px;
-  min-width: 496px;
+  width: 496px;
+  box-sizing: border-box;
 }
 
 .modal__content_type_image {
@@ -50,8 +51,8 @@
 }
 
 .modal__image {
-  width: 498px;
-  height: 498px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 20px 20px 0 0;
   display: block;
 }
@@ -69,4 +70,16 @@
 
 .modal__image-description {
   margin: 0;
+}
+
+@media screen and (max-width: 750px) {
+  .modal__content {
+    width: 300px;
+  }
+
+  .modal__info {
+    padding: 12px;
+    gap: 8px;
+    font-size: 17px;
+  }
 }

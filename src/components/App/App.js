@@ -14,15 +14,25 @@ function App() {
     setActiveModal("create");
   };
 
-  const handleModalClose = () => {
-    setActiveModal("");
+  const handleModalClose = (e) => {
+    if (
+      e.target.classList.contains("modal") ||
+      e.target.classList.contains("modal__close-button")
+    ) {
+      setActiveModal("");
+    }
+  };
+
+  const handleModalEscKey = (e) => {
+    if (e.key === "Escape") {
+      setActiveModal("");
+    }
   };
 
   const handleSelectedCardData = (cardData) => {
     setSelectedCardData(cardData);
     setActiveModal("preview");
   };
-  console.log(selectedCardData);
 
   return (
     <div className="page">
@@ -31,7 +41,10 @@ function App() {
       <Footer className="page__footer" />
 
       {activeModal === "create" && (
-        <ModalWithForm onCloseButtonClick={handleModalClose}>
+        <ModalWithForm
+          onCloseButtonClick={handleModalClose}
+          onPressEsc={handleModalEscKey}
+        >
           <label className="modal__label">
             <p className="modal__text">Name</p>
             <input className="modal__input" type="text" placeholder="Name" />
@@ -62,6 +75,7 @@ function App() {
       {activeModal === "preview" && (
         <ItemModal
           onCloseButtonClick={handleModalClose}
+          onPressEsc={handleModalEscKey}
           data={selectedCardData}
         />
       )}
