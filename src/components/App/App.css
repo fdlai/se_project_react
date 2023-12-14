@@ -13,8 +13,13 @@
 }
 
 .page__main {
+  margin-bottom: 85px;
 }
 
 .page__weather-card {
   margin-bottom: 40px;
+}
+
+.page__footer {
+  margin-top: auto;
 }

@@ -1,7 +1,5 @@
 .footer {
   font-family: "Cabinet Grotesk", "Arial", "sans-serif";
-  margin-top: auto;
-  padding-top: 85px;
   display: flex;
   justify-content: space-between;
 }

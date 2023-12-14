@@ -1,7 +1,7 @@
 import React from "react";
 import "./Header.css";
 
-function Header({ className = "" }) {
+function Header({ className = "", onHeaderButtonClick = () => {} }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -22,7 +22,11 @@ function Header({ className = "" }) {
         </div>
         <div className="header__avatar-container">
           <div>
-            <button className="header__button" type="text">
+            <button
+              className="header__button"
+              onClick={onHeaderButtonClick}
+              type="text"
+            >
               + Add clothes
             </button>
           </div>
