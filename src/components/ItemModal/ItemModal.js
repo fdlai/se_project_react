@@ -1,17 +1,14 @@
 import "./ItemModal.css";
-import { useEffect } from "react";
+import useEscapeKey from "../../utils/useEscapeKey";
 
 function ItemModal({
   onCloseButtonClick = () => {},
   onPressEsc = () => {},
   itemData,
 }) {
-  useEffect(() => {
-    document.addEventListener("keydown", onPressEsc);
-    return () => {
-      document.removeEventListener("keydown", onPressEsc);
-    };
-  }, []);
+  //custom hook
+  useEscapeKey(onPressEsc);
+
   return (
     <div className="modal" onMouseDown={onCloseButtonClick}>
       <div className="modal__content modal__content_type_image">

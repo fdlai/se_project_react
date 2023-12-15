@@ -18,6 +18,16 @@ export const getWeather = (controller) => {
     });
 };
 
+export function getTempDescription(temperature) {
+  if (temperature >= 86) {
+    return "hot";
+  } else if (temperature >= 66 && temperature <= 85) {
+    return "warm";
+  } else if (temperature <= 65) {
+    return "cold";
+  }
+}
+
 export function getWeatherCardImage(isDay, weatherCondition) {
   if (isDay) {
     switch (weatherCondition) {
@@ -67,48 +77,3 @@ export function getWeatherCardImage(isDay, weatherCondition) {
     }
   }
 }
-
-const weatherObj = {
-  coord: {
-    lon: -82.4526,
-    lat: 27.9642,
-  },
-  weather: [
-    {
-      id: 803,
-      main: "Clouds",
-      description: "broken clouds",
-      icon: "04n",
-    },
-  ],
-  base: "stations",
-  main: {
-    temp: 61.79,
-    feels_like: 61.81,
-    temp_min: 59.9,
-    temp_max: 63.9,
-    pressure: 1026,
-    humidity: 88,
-  },
-  visibility: 10000,
-  wind: {
-    speed: 11.5,
-    deg: 20,
-    gust: 20.71,
-  },
-  clouds: {
-    all: 75,
-  },
-  dt: 1702538763,
-  sys: {
-    type: 2,
-    id: 2078520,
-    country: "US",
-    sunrise: 1702555974,
-    sunset: 1702593362,
-  },
-  timezone: -18000,
-  id: 4174757,
-  name: "Tampa",
-  cod: 200,
-};

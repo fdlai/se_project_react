@@ -1,5 +1,5 @@
 import "./ModalWithForm.css";
-import { useEffect } from "react";
+import useEscapeKey from "../../utils/useEscapeKey";
 
 function ModalWithForm({
   name = "",
@@ -9,12 +9,8 @@ function ModalWithForm({
   onPressEsc = () => {},
   children,
 }) {
-  useEffect(() => {
-    document.addEventListener("keydown", onPressEsc);
-    return () => {
-      document.removeEventListener("keydown", onPressEsc);
-    };
-  }, []);
+  //custom hook
+  useEscapeKey(onPressEsc);
 
   return (
     <div

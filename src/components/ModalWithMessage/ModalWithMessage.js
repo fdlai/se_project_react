@@ -1,16 +1,12 @@
-import { useEffect } from "react";
+import useEscapeKey from "../../utils/useEscapeKey";
 
 function ModalWithMessage({
   message = "Error!",
   onCloseClick = () => {},
   onPressEsc = () => {},
 }) {
-  useEffect(() => {
-    document.addEventListener("keydown", onPressEsc);
-    return () => {
-      document.removeEventListener("keydown", onPressEsc);
-    };
-  }, []);
+  //custom hook
+  useEscapeKey(onPressEsc);
 
   return (
     <div className="modal" onMouseDown={onCloseClick}>
