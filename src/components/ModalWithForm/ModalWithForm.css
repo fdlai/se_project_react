@@ -63,10 +63,27 @@
 }
 
 .modal__title {
-  margin: 0 0 24px 0;
+  margin: 0;
 }
 
 .modal__text {
+  margin: 24px 0 8px 0;
+}
+
+.modal__text_type_last {
+  margin-bottom: 12px;
+}
+
+.modal__radio-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.modal__radio-container:last-of-type {
+  margin: 0;
 }
 
 .modal__input {

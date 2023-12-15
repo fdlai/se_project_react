@@ -5,8 +5,8 @@ function ModalWithForm({
   name = "",
   title = "New garment",
   buttonText = "Add garment",
-  onCloseButtonClick,
-  onPressEsc,
+  onCloseButtonClick = () => {},
+  onPressEsc = () => {},
   children,
 }) {
   useEffect(() => {
@@ -14,7 +14,7 @@ function ModalWithForm({
     return () => {
       document.removeEventListener("keydown", onPressEsc);
     };
-  }, [onPressEsc]);
+  }, []);
 
   return (
     <div

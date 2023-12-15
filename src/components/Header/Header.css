@@ -30,11 +30,16 @@
   align-items: center;
 }
 
+.header__user-info-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .header__button {
   margin-right: 20px;
   color: #000;
   font-family: "Cabinet Grotesk", "Arial", "sans-serif";
-  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 24px; /* 120% */
@@ -48,13 +53,49 @@
   cursor: pointer;
 }
 
-.header__name {
-  margin-right: 12px;
-}
-
 @media screen and (max-width: 750px) {
   .header {
+    font-size: 19px;
+  }
+  .header__logo-container {
+    gap: 10px;
     flex-direction: column;
+    align-items: flex-start;
+  }
+  .header__avatar-container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+  .header__button {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .header {
+    /* flex-direction: column; */
     font-size: 17px;
+    /* gap: 10px; */
+  }
+  .header__logo-container {
+    gap: 15px;
+    /* width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center; */
+  }
+  .header__avatar-container {
+    gap: 15px;
+    max-width: 35%;
+    /* flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; */
+  }
+  .header__name {
+    /* width: 65px; */
+    /* white-space: nowrap; */
   }
 }

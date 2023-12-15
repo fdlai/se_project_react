@@ -1,7 +1,7 @@
 import React from "react";
 import "./Header.css";
 
-function Header({ className = "", onHeaderButtonClick = () => {} }) {
+function Header({ className = "", location, onHeaderButtonClick = () => {} }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -18,7 +18,7 @@ function Header({ className = "", onHeaderButtonClick = () => {} }) {
               alt="logo"
             />
           </div>
-          <div className="header__date">{currentDate}</div>
+          <div className="header__date">{`${currentDate}, ${location}`}</div>
         </div>
         <div className="header__avatar-container">
           <div>
@@ -30,8 +30,8 @@ function Header({ className = "", onHeaderButtonClick = () => {} }) {
               + Add clothes
             </button>
           </div>
-          <div className="header__name">Terrence Tegegne</div>
-          <div>
+          <div className="header__user-info-container">
+            <div className="header__name">Terrence Tegegne</div>
             <img
               src={require("../../images/avatar.svg").default}
               alt="avatar"
