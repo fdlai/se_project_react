@@ -1,31 +1,25 @@
 import "./ModalWithForm.css";
-import useEscapeKey from "../../utils/useEscapeKey";
+import Modal from "../Modal/Modal";
 
 function ModalWithForm({
   name = "",
   title = "New garment",
-  buttonText = "Add garment",
-  onCloseButtonClick = () => {},
-  onPressEsc = () => {},
+  buttonText = "Submit",
+  onCloseClick = () => {},
+  activeModal,
   children,
 }) {
-  //custom hook
-  useEscapeKey(onPressEsc);
-
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
-    <div
-      className={`modal modal_type_${name}`}
-      onMouseDown={onCloseButtonClick}
-    >
-      <div className="modal__content">
-        <button className="modal__close-button"></button>
-        <h2 className="modal__title">{title}</h2>
-        <form className="modal__form" action="submit">
-          {children}
-          <button className="modal__submit-button">{buttonText}</button>
-        </form>
-      </div>
-    </div>
+    <Modal name={name} onCloseClick={onCloseClick} activeModal={activeModal}>
+      <h2 className="modal__title">{title}</h2>
+      <form className="modal__form" action="submit" onSubmit={handleFormSubmit}>
+        {children}
+        <button className="modal__submit-button">{buttonText}</button>
+      </form>
+    </Modal>
   );
 }
 

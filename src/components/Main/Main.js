@@ -9,15 +9,10 @@ function Main({
   onCardImageClick = () => {},
   temp,
   tempDescription,
-  weatherCondition,
   weatherData,
 }) {
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
-  const filteredClothingItems = clothingItems.filter((item) => {
-    if (item.weather.toLowerCase() === tempDescription) {
-      return true;
-    }
-    return false;
+  const filteredClothingItems = defaultClothingItems.filter((item) => {
+    return item.weather.toLowerCase() === tempDescription;
   });
 
   return (

@@ -1,3 +1,18 @@
+import clearDayImg from "../images/clear-day.svg";
+import clearNightImg from "../images/clear-night.svg";
+import cloudyDayImg from "../images/cloudy-day.svg";
+import cloudyNightImg from "../images/cloudy-night.svg";
+import rainyDayImg from "../images/rainy-day.svg";
+import rainyNightImg from "../images/rainy-night.svg";
+import stormyDayImg from "../images/stormy-day.svg";
+import stormyNightImg from "../images/stormy-night.svg";
+import snowyDayImg from "../images/snowy-day.svg";
+import snowyNightImg from "../images/snowy-night.svg";
+import foggyDayImg from "../images/foggy-day.svg";
+import foggyNightImg from "../images/foggy-night.svg";
+import defaultDayImg from "../images/day-default.svg";
+import defaultNightImg from "../images/night-default.svg";
+
 const APIkey = "6672e1b00e396679abc9813db01c701f";
 const latitude = "27.964157";
 const longitude = "-82.452606";
@@ -6,16 +21,16 @@ export const getWeather = (controller) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`,
     { signal: controller.signal }
-  )
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .then((data) => {
-      return data;
-    });
+  ).then((res) => {
+    return processServerResponse(res);
+  });
+};
+
+const processServerResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(res.status);
 };
 
 export function getTempDescription(temperature) {
@@ -32,48 +47,56 @@ export function getWeatherCardImage(isDay, weatherCondition) {
   if (isDay) {
     switch (weatherCondition) {
       case "Clear":
-        return require("../images/clear-day.svg").default;
+        return clearDayImg;
 
       case "Clouds":
-        return require("../images/cloudy-day.svg").default;
+        return cloudyDayImg;
 
-      case "Rain" || "Drizzle":
-        return require("../images/rainy-day.svg").default;
+      case "Rain":
+      case "Drizzle":
+        return rainyDayImg;
 
       case "Thunderstorm":
-        return require("../images/stormy-day.svg").default;
+        return stormyDayImg;
 
       case "Snow":
-        return require("../images/snowy-day.svg").default;
+        return snowyDayImg;
 
-      case "Fog" || "Mist" || "Smoke" || "Haze":
-        return require("../images/foggy-day.svg").default;
+      case "Fog":
+      case "Mist":
+      case "Smoke":
+      case "Haze":
+        return foggyDayImg;
 
       default:
-        return require("../images/day-default.svg").default;
+        return defaultDayImg;
     }
   } else if (!isDay) {
     switch (weatherCondition) {
       case "Clear":
-        return require("../images/clear-night.svg").default;
+        return clearNightImg;
 
       case "Clouds":
-        return require("../images/cloudy-night.svg").default;
+        return cloudyNightImg;
 
-      case "Rain" || "Drizzle":
-        return require("../images/rainy-night.svg").default;
+      case "Rain":
+      case "Drizzle":
+        return rainyNightImg;
 
       case "Thunderstorm":
-        return require("../images/stormy-night.svg").default;
+        return stormyNightImg;
 
       case "Snow":
-        return require("../images/snowy-night.svg").default;
+        return snowyNightImg;
 
-      case "Fog" || "Mist" || "Smoke" || "Haze":
-        return require("../images/foggy-night.svg").default;
+      case "Fog":
+      case "Mist":
+      case "Smoke":
+      case "Haze":
+        return foggyNightImg;
 
       default:
-        return require("../images/night-default.svg").default;
+        return defaultNightImg;
     }
   }
 }

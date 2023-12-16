@@ -23,6 +23,16 @@ function App() {
   const tempDescription = getTempDescription(temp); //undefined until weatherData is set to the fetched weather object
 
   useEffect(() => {
+    if (!activeModal) {
+      return;
+    }
+    document.addEventListener("keydown", handleModalEscKey);
+    return () => {
+      document.removeEventListener("keydown", handleModalEscKey);
+    };
+  }, [activeModal]);
+
+  useEffect(() => {
     const controller = new AbortController();
     getWeather(controller)
       .then((data) => {
@@ -49,11 +59,11 @@ function App() {
     }
   };
 
-  const handleModalEscKey = (e) => {
+  function handleModalEscKey(e) {
     if (e.key === "Escape") {
       setActiveModal("");
     }
-  };
+  }
 
   const handleSelectedCardData = (cardData) => {
     setSelectedCardData(cardData);
@@ -78,8 +88,9 @@ function App() {
 
       {activeModal === "create" && (
         <ModalWithForm
-          onCloseButtonClick={handleModalClose}
-          onPressEsc={handleModalEscKey}
+          onCloseClick={handleModalClose}
+          buttonText="Add garment"
+          activeModal={activeModal}
         >
           <label className="modal__label">
             <p className="modal__text">Name</p>
@@ -97,24 +108,25 @@ function App() {
             Select the weather type:
           </p>
           <div className="modal__radio-container">
-            <input type="radio" id="hot" value="hot" />
+            <input type="radio" id="hot" value="hot" name="temperature" />
             <label>Hot</label>
           </div>
           <div className="modal__radio-container">
-            <input type="radio" id="warm" value="warm" />
+            <input type="radio" id="warm" value="warm" name="temperature" />
             <label>Warm</label>
           </div>
           <div className="modal__radio-container">
-            <input type="radio" id="cold" value="cold" />
+            <input type="radio" id="cold" value="cold" name="temperature" />
             <label>Cold</label>
           </div>
         </ModalWithForm>
       )}
       {activeModal === "preview" && (
         <ItemModal
-          onCloseButtonClick={handleModalClose}
+          onCloseClick={handleModalClose}
           onPressEsc={handleModalEscKey}
           itemData={selectedCardData}
+          activeModal={activeModal}
         />
       )}
       {activeModal === "message" && (
@@ -122,6 +134,7 @@ function App() {
           message={message}
           onCloseClick={handleModalClose}
           onPressEsc={handleModalEscKey}
+          activeModal={activeModal}
         />
       )}
     </div>
