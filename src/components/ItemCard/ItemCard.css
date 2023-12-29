@@ -42,6 +42,7 @@
   right: 0;
   display: flex;
   justify-content: center;
+  pointer-events: none;
 }
 
 .card__name {

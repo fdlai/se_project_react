@@ -28,6 +28,7 @@
 .header__avatar-container {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
 .header__user-info-container {
@@ -37,7 +38,6 @@
 }
 
 .header__button {
-  margin-right: 20px;
   color: #000;
   font-family: "Cabinet Grotesk", "Arial", "sans-serif";
   font-style: normal;
@@ -88,14 +88,13 @@
   }
   .header__avatar-container {
     gap: 15px;
-    max-width: 35%;
+    /* max-width: 35%; */
     /* flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%; */
   }
   .header__name {
-    /* width: 65px; */
-    /* white-space: nowrap; */
+    text-align: right;
   }
 }

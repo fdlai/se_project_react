@@ -88,6 +88,7 @@ function App() {
 
       {activeModal === "create" && (
         <ModalWithForm
+          title="New garment"
           onCloseClick={handleModalClose}
           buttonText="Add garment"
           activeModal={activeModal}

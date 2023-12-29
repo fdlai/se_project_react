@@ -3,7 +3,7 @@ import Modal from "../Modal/Modal";
 
 function ModalWithForm({
   name = "",
-  title = "New garment",
+  title = "",
   buttonText = "Submit",
   onCloseClick = () => {},
   activeModal,

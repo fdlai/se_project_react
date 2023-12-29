@@ -9,11 +9,11 @@ function WeatherCard({ className = "", temp, weatherData }) {
   const sunset = weatherData ? weatherData.sys.sunset : "Loading...";
   const timeNow = Date.now() / 1000;
   const isDay = sunrise < timeNow && timeNow < sunset;
-  const URL = getWeatherCardImage(isDay, weatherCondition);
+  const url = getWeatherCardImage(isDay, weatherCondition);
 
   return (
     <section className={`weather ${className}`}>
-      <img src={URL} alt="" className="weather__image" />
+      <img src={url} alt="" className="weather__image" />
       <div className="weather__info">{temp}&deg;F</div>
     </section>
   );

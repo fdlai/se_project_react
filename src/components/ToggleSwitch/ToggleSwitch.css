@@ -1,0 +1,80 @@
+.switch {
+  position: relative;
+  text-align: center;
+  font-family: "Cabinet Grotesk", "Arial", "sans-serif";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.switch__container {
+  width: 56px;
+  height: 28px;
+  border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  appearance: none;
+  z-index: 2;
+  position: relative;
+  transition: 0.2s ease-out;
+}
+
+.switch__container:hover {
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 1);
+  transition: 0.2s ease-out;
+}
+
+.switch__slider {
+  border-radius: 20px;
+  width: 28px;
+  height: 28px;
+  background-color: black;
+  position: absolute;
+}
+
+/* .switch__container:hover ~ .switch__slider {
+  width: 30px;
+} */
+
+.switch__slider_type_F {
+  color: #fff;
+  left: 0px;
+  transition: 0.2s ease-out;
+}
+
+.switch__slider_type_C {
+  left: 28px;
+  color: white;
+  transition: 0.2s ease-out;
+}
+
+.switch__text-F {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  color: rgba(0, 0, 0, 0.5);
+  transition: 0.2s ease-out;
+}
+
+.switch__text-C {
+  position: absolute;
+  top: -8px;
+  right: 10px;
+  color: rgba(0, 0, 0, 0.5);
+  transition: 0.2s ease-out;
+}
+
+.switch__text_active {
+  color: #fff;
+  transition: 0.2s ease-out;
+}
+
+/* .switch__container:hover ~ .switch__text_active {
+  left: 11px;
+} */
+
+.switch__container:hover ~ .switch__text_inactive {
+  color: rgba(0, 0, 0, 1);
+  transition: 0.2s ease-out;
+}
