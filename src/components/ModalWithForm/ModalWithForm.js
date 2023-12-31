@@ -8,10 +8,11 @@ function ModalWithForm({
   onCloseClick = () => {},
   activeModal,
   children,
+  handleFormSubmit,
 }) {
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const handleFormSubmit = (e) => {
+  //   e.preventDefault();
+  // };
   return (
     <Modal name={name} onCloseClick={onCloseClick} activeModal={activeModal}>
       <h2 className="modal__title">{title}</h2>

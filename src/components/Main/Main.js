@@ -2,7 +2,8 @@ import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
 import { defaultClothingItems } from "../../utils/constants";
-import { useState } from "react";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import { useState, useContext } from "react";
 
 function Main({
   className = "",
@@ -10,10 +11,17 @@ function Main({
   temp,
   tempDescription,
   weatherData,
+  clothingItems,
 }) {
-  const filteredClothingItems = defaultClothingItems.filter((item) => {
+  const filteredClothingItems = clothingItems.filter((item) => {
     return item.weather.toLowerCase() === tempDescription;
   });
+
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+
+  const getTemp = () => {
+    return currentTemperatureUnit === "F" ? `${temp.F}° F` : `${temp.C}° C`;
+  };
 
   return (
     <main className={`main ${className}`}>
@@ -24,7 +32,7 @@ function Main({
       />
       <section className="cards">
         <h2 className="cards__title">
-          Today is {temp}° F / You may want to wear:
+          Today is {getTemp()} / You may want to wear:
         </h2>
         <ul className="cards__list">
           {filteredClothingItems.map((cardData) => {

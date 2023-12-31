@@ -33,6 +33,7 @@
   height: 325px;
   border-radius: 19px;
   cursor: zoom-in;
+  display: block;
 }
 
 .card__name-container {
