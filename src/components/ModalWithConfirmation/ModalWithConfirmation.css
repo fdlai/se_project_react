@@ -1,0 +1,37 @@
+.modal__content_type_confirm {
+  width: 670px;
+  padding: 60px 0;
+}
+
+.modal__confirm-text {
+  margin: 0;
+  text-align: center;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 120% */
+}
+
+.modal__confirm-delete-button {
+  color: #ff4d00;
+  margin: 40px auto 24px auto;
+  display: block;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.modal__confirm-cancel-button {
+  display: block;
+  margin: auto;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.modal__close-button_type_confirm {
+  right: 20px;
+}

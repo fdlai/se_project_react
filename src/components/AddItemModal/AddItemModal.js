@@ -1,43 +1,30 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //The specific modal which adds new clothes items
-// onAddItem refers to handleAddItemSubmit, which is declared in App.js
-const AddItemModal = ({
-  onCloseClick = () => {},
-  activeModal,
-  setActiveModal,
-  clothingItems,
-  setClothingItems,
-}) => {
-  // declare state for each input field
+const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [selectedTemp, setSelectedTemp] = useState("");
 
   // use a useEffect hook to reset the input field state to empty strings when
   // the modal is opened
+  //   useEffect(() => {
+  //     return () => {
+  //       setName("");
+  //       setLink("");
+  //     };
+  //   }, []);
 
-  // create onChange handlers corresponding to each state variable
-
-  function handleSubmit(e) {
+  function handleFormSubmit(e) {
     // prevent default behavior
     e.preventDefault();
     // call onAddItem with appropriate arguments
-  }
-
-  function handleAddItemSubmit(e) {
-    e.preventDefault();
-    const maxId = Math.max(...clothingItems.map((item) => item._id));
-    const newItem = {
-      _id: maxId + 1,
-      name: name,
-      weather: selectedTemp,
-      link: link,
-    };
-    setClothingItems([newItem, ...clothingItems]);
-    setActiveModal("");
+    onAddItem(name, link, selectedTemp);
+    setName("");
+    setLink("");
+    setSelectedTemp("");
   }
 
   return (
@@ -45,8 +32,8 @@ const AddItemModal = ({
       title="New garment"
       onCloseClick={onCloseClick}
       buttonText="Add garment"
-      activeModal={activeModal}
-      handleFormSubmit={handleAddItemSubmit}
+      handleFormSubmit={handleFormSubmit}
+      isOpen={isOpen}
     >
       {/* -------------------------------- Children
       -------------------------------- */}
@@ -57,6 +44,7 @@ const AddItemModal = ({
           onChange={(e) => {
             setName(e.target.value);
           }}
+          value={name}
           type="text"
           placeholder="Name"
         />
@@ -68,6 +56,7 @@ const AddItemModal = ({
           onChange={(e) => {
             setLink(e.target.value);
           }}
+          value={link}
           type="text"
           placeholder="Image URL"
         />
