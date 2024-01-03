@@ -16,13 +16,19 @@ function ItemModal({
       modalContentClassName={modalContentClassName}
       modalCloseButtonClass={modalCloseButtonClass}
     >
-      <img src={itemData.link} alt={itemData.name} className="modal__image" />
+      <img
+        src={itemData.imageUrl}
+        alt={itemData.name}
+        className="modal__image"
+      />
       <div className="modal__info">
         <div className="modal__image-row">
           <p className="modal__image-name">{itemData.name}</p>
           <button
             className="modal__image-delete-button"
-            onClick={onClickDelete}
+            onClick={(e) => {
+              onClickDelete(e);
+            }}
           >
             Delete item
           </button>

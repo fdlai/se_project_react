@@ -10,6 +10,12 @@ import ModalWithConfirmation from "../ModalWithConfirmation/ModalWithConfirmatio
 import { defaultClothingItems } from "../../utils/constants";
 import { getWeather, getTempDescription } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import { Switch, Route } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  getApiClothingItems,
+  postApiClothingItem,
+  deleteApiClothingItem,
+} from "../../utils/api";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -24,7 +30,7 @@ function App() {
   //control the message being used in MessageModal
   const [message, setMessage] = useState("no message set");
   //control the inventory of clothing items that can be displayed
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [clothingItems, setClothingItems] = useState(null);
   //control whether temperature is displayed in fahrenheit or celsius
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
@@ -36,7 +42,10 @@ function App() {
         F: Math.round(weatherData.main.temp),
         C: Math.round(((weatherData.main.temp - 32) * 5) / 9),
       }
-    : "Loading...";
+    : {
+        F: "Loading...",
+        C: "Loading...",
+      };
   const location = weatherData ? weatherData.name : "Loading...";
   const tempDescription = getTempDescription(temp.F); //undefined until weatherData is set to the fetched weather object
 
@@ -63,6 +72,21 @@ function App() {
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not retrieve weather data.`);
+        setActiveModal("message");
+      });
+    return () => controller.abort();
+  }, []);
+
+  //fetch clothing items from server and assign to clothingItems state
+  useEffect(() => {
+    const controller = new AbortController();
+    getApiClothingItems(controller)
+      .then((data) => {
+        console.log(data);
+        setClothingItems(data.reverse());
+      })
+      .catch((err) => {
+        setMessage(`Error ${err}. Could not retrieve clothing items.`);
         setActiveModal("message");
       });
     return () => controller.abort();
@@ -100,25 +124,43 @@ function App() {
       : setCurrentTemperatureUnit("F");
   };
   //Runs when submitting the addItem Modal
-  function handleAddItemSubmit(name, link, selectedTemp) {
-    const maxId = Math.max(...clothingItems.map((item) => item._id));
-    const newItem = {
-      _id: maxId + 1,
+  function handleAddItemSubmit(name, imageUrl, selectedTemp) {
+    postApiClothingItem({
       name: name,
+      imageUrl: imageUrl,
       weather: selectedTemp,
-      link: link,
-    };
-    setClothingItems([newItem, ...clothingItems]);
-    setActiveModal("");
+    })
+      .then((data) => {
+        const maxId = Math.max(...clothingItems?.map((item) => item._id));
+        const newItem = {
+          _id: maxId + 1,
+          name: name,
+          weather: selectedTemp,
+          imageUrl: imageUrl,
+        };
+        setClothingItems([newItem, ...clothingItems]);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        setMessage(`Error ${err}. Could not add clothing item.`);
+        setActiveModal("message");
+      });
   }
 
   //modify clothingItems array to remove the object with the passed in id. Runs when clicking 'delete' in the confirmation modal
   function deleteClothingItem(id) {
-    const newClothingItems = clothingItems.filter((item) => {
-      return item._id != id;
-    });
-    setClothingItems(newClothingItems);
-    setActiveModal("");
+    deleteApiClothingItem(id)
+      .then((data) => {
+        const newClothingItems = clothingItems.filter((item) => {
+          return item._id != id;
+        });
+        setClothingItems(newClothingItems);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        setMessage(`Error ${err}. Could not delete clothing item.`);
+        setActiveModal("message");
+      });
   }
 
   /* -------------------------------------------------------------------------- */
@@ -134,14 +176,21 @@ function App() {
           location={location}
           onHeaderButtonClick={setModalToCreate}
         />
-        <Main
-          className="page__main"
-          onCardImageClick={handleSelectedCardData}
-          temp={temp}
-          tempDescription={tempDescription}
-          weatherData={weatherData}
-          clothingItems={clothingItems}
-        />
+        <Switch>
+          <Route exact path="/">
+            <Main
+              className="page__main"
+              onCardImageClick={handleSelectedCardData}
+              temp={temp}
+              tempDescription={tempDescription}
+              weatherData={weatherData}
+              clothingItems={clothingItems}
+            />
+          </Route>
+          <Route path="/profile">
+            <div>Profile</div>
+          </Route>
+        </Switch>
         <Footer className="page__footer" />
 
         <AddItemModal

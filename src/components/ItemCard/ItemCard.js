@@ -7,7 +7,7 @@ function ItemCard({ cardData, onCardImageClick = () => {} }) {
   return (
     <li className="card">
       <img
-        src={cardData.link}
+        src={cardData.imageUrl}
         alt=""
         className="card__image"
         onClick={onClick}

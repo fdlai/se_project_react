@@ -23,7 +23,9 @@ function ModalWithConfirmation({
       <button
         className="modal__confirm-text modal__confirm-delete-button"
         type="submit"
-        onClick={() => onClickDelete(itemData._id)}
+        onClick={() => {
+          onClickDelete(itemData._id);
+        }}
       >
         Yes, delete item
       </button>

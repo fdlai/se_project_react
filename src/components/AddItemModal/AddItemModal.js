@@ -5,25 +5,16 @@ import { useState, useEffect } from "react";
 //The specific modal which adds new clothes items
 const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
   const [name, setName] = useState("");
-  const [link, setLink] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [selectedTemp, setSelectedTemp] = useState("");
-
-  // use a useEffect hook to reset the input field state to empty strings when
-  // the modal is opened
-  //   useEffect(() => {
-  //     return () => {
-  //       setName("");
-  //       setLink("");
-  //     };
-  //   }, []);
 
   function handleFormSubmit(e) {
     // prevent default behavior
     e.preventDefault();
     // call onAddItem with appropriate arguments
-    onAddItem(name, link, selectedTemp);
+    onAddItem(name, imageUrl, selectedTemp);
     setName("");
-    setLink("");
+    setImageUrl("");
     setSelectedTemp("");
   }
 
@@ -47,6 +38,7 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
           value={name}
           type="text"
           placeholder="Name"
+          required
         />
       </label>
       <label className="modal__label">
@@ -54,11 +46,12 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
         <input
           className="modal__input"
           onChange={(e) => {
-            setLink(e.target.value);
+            setImageUrl(e.target.value);
           }}
-          value={link}
-          type="text"
+          value={imageUrl}
+          type="url"
           placeholder="Image URL"
+          required
         />
       </label>
       <p className="modal__text modal__text_type_last">
@@ -73,6 +66,7 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
           onChange={(e) => {
             setSelectedTemp(e.target.value);
           }}
+          required
         />
         <label>Hot</label>
       </div>
@@ -85,6 +79,7 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
           onChange={(e) => {
             setSelectedTemp(e.target.value);
           }}
+          required
         />
         <label>Warm</label>
       </div>
@@ -97,6 +92,7 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
           onChange={(e) => {
             setSelectedTemp(e.target.value);
           }}
+          required
         />
         <label>Cold</label>
       </div>

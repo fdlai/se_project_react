@@ -26,7 +26,7 @@ export const getWeather = (controller) => {
   });
 };
 
-const processServerResponse = (res) => {
+export const processServerResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
