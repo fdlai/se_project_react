@@ -6,7 +6,6 @@
   font-weight: 700;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   min-height: 40px;
 }
 
@@ -35,6 +34,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.header__link {
+  text-decoration: none;
+}
+
+.header__link:visited {
+  color: inherit;
+}
+
+.header__name {
+  text-align: right;
 }
 
 .header__button {

@@ -3,6 +3,7 @@ import "./Header.css";
 import logoImg from "../../images/logo.svg";
 import avatarImg from "../../images/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Header({ className = "", location, onHeaderButtonClick = () => {} }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -13,9 +14,9 @@ function Header({ className = "", location, onHeaderButtonClick = () => {} }) {
   return (
     <header className={`header ${className}`}>
       <div className="header__logo-container">
-        <div>
+        <Link to="/" className="header__link">
           <img className="header__logo" src={logoImg} alt="logo" />
-        </div>
+        </Link>
         <div className="header__date">{`${currentDate}, ${location}`}</div>
       </div>
       <div className="header__avatar-container">
@@ -30,8 +31,12 @@ function Header({ className = "", location, onHeaderButtonClick = () => {} }) {
           </button>
         </div>
         <div className="header__user-info-container">
-          <div className="header__name">Terrence Tegegne</div>
-          <img src={avatarImg} alt="avatar" />
+          <Link to="/profile" className="header__link">
+            <div className="header__name">Terrence Tegegne</div>
+          </Link>
+          <Link to="/profile" className="header__link">
+            <img src={avatarImg} alt="avatar" />
+          </Link>
         </div>
       </div>
     </header>

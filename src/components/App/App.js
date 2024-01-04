@@ -10,6 +10,7 @@ import ModalWithConfirmation from "../ModalWithConfirmation/ModalWithConfirmatio
 import { defaultClothingItems } from "../../utils/constants";
 import { getWeather, getTempDescription } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import Profile from "../Profile/Profile";
 import { Switch, Route } from "react-router-dom/cjs/react-router-dom.min";
 import {
   getApiClothingItems,
@@ -188,7 +189,11 @@ function App() {
             />
           </Route>
           <Route path="/profile">
-            <div>Profile</div>
+            <Profile
+              className="page__profile"
+              clothingItems={clothingItems}
+              onCardImageClick={handleSelectedCardData}
+            />
           </Route>
         </Switch>
         <Footer className="page__footer" />
