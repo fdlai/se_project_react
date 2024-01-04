@@ -193,6 +193,7 @@ function App() {
               className="page__profile"
               clothingItems={clothingItems}
               onCardImageClick={handleSelectedCardData}
+              onAddButtonClick={setModalToCreate}
             />
           </Route>
         </Switch>

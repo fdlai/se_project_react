@@ -36,6 +36,14 @@
   gap: 12px;
 }
 
+.header__name {
+  text-align: right;
+}
+
+.header__name:hover {
+  color: rgba(0, 0, 0, 0.6);
+}
+
 .header__link {
   text-decoration: none;
 }
@@ -44,8 +52,8 @@
   color: inherit;
 }
 
-.header__name {
-  text-align: right;
+.header__link:hover {
+  opacity: 0.6;
 }
 
 .header__button {

@@ -14,18 +14,6 @@
   grid-template-columns: 230px 1fr;
 }
 
-.profile__user {
-  grid-area: user;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.profile__image {
-  width: 56px;
-  height: 56px;
-}
-
 .profile__title-container {
   grid-area: title;
   display: flex;
@@ -50,16 +38,6 @@
 
 .profile__add-button:hover {
   color: rgba(0, 0, 0, 1);
-}
-
-.profile__items {
-  grid-area: items;
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 17px;
 }
 
 @media screen and (max-width: 1100px) {
