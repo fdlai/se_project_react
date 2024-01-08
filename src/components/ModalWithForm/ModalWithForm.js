@@ -10,9 +10,6 @@ function ModalWithForm({
   handleFormSubmit,
   isOpen,
 }) {
-  // const handleFormSubmit = (e) => {
-  //   e.preventDefault();
-  // };
   return (
     <Modal isOpen={isOpen} name={name} onCloseClick={onCloseClick}>
       <h2 className="modal__title">{title}</h2>
@@ -20,7 +17,9 @@ function ModalWithForm({
         className="modal__form"
         action="submit"
         onSubmit={(e) => {
+          e.preventDefault();
           handleFormSubmit(e);
+          onCloseClick();
         }}
       >
         {children}

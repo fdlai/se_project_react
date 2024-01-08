@@ -22,6 +22,16 @@
   margin: 0;
 }
 
+.modal__radio-label {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.modal__radio-checkbox {
+  cursor: pointer;
+}
+
 .modal__input {
   border: none;
   border-bottom: 1px solid black;

@@ -22,7 +22,7 @@ function ModalWithConfirmation({
       <p className="modal__confirm-text">This action is irreversible.</p>
       <button
         className="modal__confirm-text modal__confirm-delete-button"
-        type="submit"
+        type="button"
         onClick={() => {
           onClickDelete(itemData._id);
         }}
@@ -31,7 +31,7 @@ function ModalWithConfirmation({
       </button>
       <button
         className="modal__confirm-text modal__confirm-cancel-button"
-        type="submit"
+        type="button"
         onClick={onCloseClick}
       >
         Cancel

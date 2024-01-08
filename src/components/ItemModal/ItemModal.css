@@ -34,6 +34,10 @@
   cursor: pointer;
 }
 
+.modal__image-delete-button:hover {
+  opacity: 0.6;
+}
+
 .modal__image-description {
   margin: 0;
 }

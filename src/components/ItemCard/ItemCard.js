@@ -8,7 +8,7 @@ function ItemCard({ cardData, onCardImageClick = () => {} }) {
     <li className="card">
       <img
         src={cardData.imageUrl}
-        alt=""
+        alt={cardData.name}
         className="card__image"
         onClick={onClick}
       />

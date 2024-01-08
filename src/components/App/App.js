@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -104,13 +104,13 @@ function App() {
     setActiveModal("delete-item-confirm");
   };
 
-  const handleModalClose = (e) => {
+  const handleModalClose = () => {
     setActiveModal("");
   };
 
   function handleModalEscKey(e) {
     if (e.key === "Escape") {
-      setActiveModal("");
+      handleModalClose();
     }
   }
   //handles the opening of the ItemModal. Runs when clicking a card image.
@@ -126,7 +126,7 @@ function App() {
   };
   //Runs when submitting the addItem Modal
   function handleAddItemSubmit(name, imageUrl, selectedTemp) {
-    postApiClothingItem({
+    return postApiClothingItem({
       name: name,
       imageUrl: imageUrl,
       weather: selectedTemp,
@@ -140,12 +140,17 @@ function App() {
           imageUrl: imageUrl,
         };
         setClothingItems([newItem, ...clothingItems]);
-        setActiveModal("");
+        //handleModalClose();
       })
       .catch((err) => {
-        setMessage(`Error ${err}. Could not add clothing item.`);
-        setActiveModal("message");
+        throw new Error(err);
       });
+  }
+
+  //Runs if an error occurs while trying to add a new clothing item
+  function onAddItemFail(err) {
+    setMessage(`${err}. Could not add clothing item.`);
+    setActiveModal("message");
   }
 
   //modify clothingItems array to remove the object with the passed in id. Runs when clicking 'delete' in the confirmation modal
@@ -156,7 +161,7 @@ function App() {
           return item._id != id;
         });
         setClothingItems(newClothingItems);
-        setActiveModal("");
+        handleModalClose();
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not delete clothing item.`);
@@ -206,6 +211,7 @@ function App() {
           clothingItems={clothingItems}
           setClothingItems={setClothingItems}
           onAddItem={handleAddItemSubmit}
+          onAddItemFail={onAddItemFail}
         />
 
         <ItemModal

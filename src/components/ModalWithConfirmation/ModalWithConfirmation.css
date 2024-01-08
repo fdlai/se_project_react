@@ -23,6 +23,10 @@
   cursor: pointer;
 }
 
+.modal__confirm-delete-button:hover {
+  opacity: 0.6;
+}
+
 .modal__confirm-cancel-button {
   display: block;
   margin: auto;

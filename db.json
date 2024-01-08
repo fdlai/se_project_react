@@ -107,6 +107,12 @@
       "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foldnavy.gap.com%2Fwebcontent%2F0015%2F181%2F107%2Fcn15181107.jpg&f=1&nofb=1&ipt=398caaeff07104820caa0517009323fce7576e4bba484265973426a93fa8ab29&ipo=images",
       "weather": "warm",
       "_id": 18
+    },
+    {
+      "name": "Beige Pants",
+      "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foldnavy.gap.com%2Fwebcontent%2F0020%2F660%2F733%2Fcn20660733.jpg&f=1&nofb=1&ipt=1540231e87321fe799905f8ddeeacbba5f509f1461ee283a8d029e9f487ee0e7&ipo=images",
+      "weather": "warm",
+      "_id": 19
     }
   ]
 }

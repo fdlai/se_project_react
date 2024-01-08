@@ -1,21 +1,40 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import useForm from "../../hooks/useForm";
 import { useState, useEffect } from "react";
 
 //The specific modal which adds new clothes items
-const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
-  const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [selectedTemp, setSelectedTemp] = useState("");
+const AddItemModal = ({
+  onCloseClick = () => {},
+  isOpen,
+  onAddItem,
+  onAddItemFail,
+}) => {
+  const { values, setValues, handleChange } = useForm({
+    name: "",
+    imageUrl: "",
+    selectedTemp: "",
+  });
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && isSubmitted) {
+      setValues({
+        name: "",
+        imageUrl: "",
+        selectedTemp: "",
+      });
+      setIsSubmitted(false);
+    }
+  }, [isOpen]);
 
   function handleFormSubmit(e) {
-    // prevent default behavior
-    e.preventDefault();
-    // call onAddItem with appropriate arguments
-    onAddItem(name, imageUrl, selectedTemp);
-    setName("");
-    setImageUrl("");
-    setSelectedTemp("");
+    onAddItem(values.name, values.imageUrl, values.selectedTemp)
+      .then(() => {
+        setIsSubmitted(true);
+      })
+      .catch((err) => onAddItemFail(err));
   }
 
   return (
@@ -32,10 +51,9 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
         <p className="modal__text">Name</p>
         <input
           className="modal__input"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          value={name}
+          onChange={handleChange}
+          name="name"
+          value={values.name}
           type="text"
           placeholder="Name"
           required
@@ -45,10 +63,9 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
         <p className="modal__text">Image</p>
         <input
           className="modal__input"
-          onChange={(e) => {
-            setImageUrl(e.target.value);
-          }}
-          value={imageUrl}
+          onChange={handleChange}
+          name="imageUrl"
+          value={values.imageUrl}
           type="url"
           placeholder="Image URL"
           required
@@ -58,43 +75,49 @@ const AddItemModal = ({ onCloseClick = () => {}, isOpen, onAddItem }) => {
         Select the weather type:
       </p>
       <div className="modal__radio-container">
-        <input
-          type="radio"
-          id="hot"
-          value="hot"
-          name="temperature"
-          onChange={(e) => {
-            setSelectedTemp(e.target.value);
-          }}
-          required
-        />
-        <label>Hot</label>
+        <label className="modal__radio-label">
+          <input
+            className="modal__radio-checkbox"
+            type="radio"
+            id="hot"
+            value="hot"
+            name="selectedTemp"
+            onChange={handleChange}
+            required
+            checked={values.selectedTemp === "hot"}
+          />
+          Hot
+        </label>
       </div>
       <div className="modal__radio-container">
-        <input
-          type="radio"
-          id="warm"
-          value="warm"
-          name="temperature"
-          onChange={(e) => {
-            setSelectedTemp(e.target.value);
-          }}
-          required
-        />
-        <label>Warm</label>
+        <label className="modal__radio-label">
+          <input
+            className="modal__radio-checkbox"
+            type="radio"
+            id="warm"
+            value="warm"
+            name="selectedTemp"
+            onChange={handleChange}
+            required
+            checked={values.selectedTemp === "warm"}
+          />
+          Warm
+        </label>
       </div>
       <div className="modal__radio-container">
-        <input
-          type="radio"
-          id="cold"
-          value="cold"
-          name="temperature"
-          onChange={(e) => {
-            setSelectedTemp(e.target.value);
-          }}
-          required
-        />
-        <label>Cold</label>
+        <label className="modal__radio-label">
+          <input
+            className="modal__radio-checkbox"
+            type="radio"
+            id="cold"
+            value="cold"
+            name="selectedTemp"
+            onChange={handleChange}
+            required
+            checked={values.selectedTemp === "cold"}
+          />
+          Cold
+        </label>
       </div>
       {/* -------------------------------- Children
       -------------------------------- */}
