@@ -34,7 +34,3 @@ export const deleteApiClothingItem = (id) => {
     return processServerResponse(res);
   });
 };
-
-//postApiClothingItem();
-//deleteApiClothingItem();
-//getApiClothingItems();

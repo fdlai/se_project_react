@@ -7,6 +7,7 @@ function Modal({
   onCloseClick = () => {},
   modalContentClassName,
   modalCloseButtonClass,
+  modalClassName,
 }) {
   const handleCloseClick = (e) => {
     if (
@@ -19,7 +20,7 @@ function Modal({
 
   return (
     <div
-      className={`modal ${isOpen ? "modal_active" : ""}`}
+      className={`modal ${isOpen ? "modal_active" : ""} ${modalClassName}`}
       onMouseDown={handleCloseClick}
     >
       <div className={`modal__content ${modalContentClassName}`}>

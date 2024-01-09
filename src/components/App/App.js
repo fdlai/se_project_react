@@ -34,6 +34,8 @@ function App() {
   const [clothingItems, setClothingItems] = useState(null);
   //control whether temperature is displayed in fahrenheit or celsius
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  //message modal works on a different state, so that it can be open simultaneously with other modals
+  const [messageModalOpen, setMessageModalOpen] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                              Derived Variables                             */
@@ -73,7 +75,7 @@ function App() {
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not retrieve weather data.`);
-        setActiveModal("message");
+        setMessageModalOpen(true);
       });
     return () => controller.abort();
   }, []);
@@ -88,7 +90,7 @@ function App() {
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not retrieve clothing items.`);
-        setActiveModal("message");
+        setMessageModalOpen(true);
       });
     return () => controller.abort();
   }, []);
@@ -108,9 +110,14 @@ function App() {
     setActiveModal("");
   };
 
+  const handleMessageModalClose = () => {
+    setMessageModalOpen(false);
+  };
+
   function handleModalEscKey(e) {
     if (e.key === "Escape") {
       handleModalClose();
+      handleMessageModalClose();
     }
   }
   //handles the opening of the ItemModal. Runs when clicking a card image.
@@ -140,7 +147,6 @@ function App() {
           imageUrl: imageUrl,
         };
         setClothingItems([newItem, ...clothingItems]);
-        //handleModalClose();
       })
       .catch((err) => {
         throw new Error(err);
@@ -150,7 +156,7 @@ function App() {
   //Runs if an error occurs while trying to add a new clothing item
   function onAddItemFail(err) {
     setMessage(`${err}. Could not add clothing item.`);
-    setActiveModal("message");
+    setMessageModalOpen(true);
   }
 
   //modify clothingItems array to remove the object with the passed in id. Runs when clicking 'delete' in the confirmation modal
@@ -165,7 +171,7 @@ function App() {
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not delete clothing item.`);
-        setActiveModal("message");
+        setMessageModalOpen(true);
       });
   }
 
@@ -225,12 +231,13 @@ function App() {
         />
 
         <ModalWithMessage
-          isOpen={activeModal === "message"}
+          isOpen={messageModalOpen}
           message={message}
-          onCloseClick={handleModalClose}
+          onCloseClick={handleMessageModalClose}
           onPressEsc={handleModalEscKey}
           activeModal={activeModal}
           modalContentClassName={"modal__content_type_message"}
+          modalClassName={"modal_type_message-active"}
         />
 
         <ModalWithConfirmation

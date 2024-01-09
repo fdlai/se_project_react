@@ -25,6 +25,10 @@
   pointer-events: initial;
 }
 
+.modal_type_message-active {
+  z-index: 1000;
+}
+
 .modal__content {
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.3);

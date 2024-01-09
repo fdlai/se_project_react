@@ -6,6 +6,7 @@ function ModalWithMessage({
   activeModal,
   isOpen,
   modalContentClassName,
+  modalClassName,
 }) {
   return (
     <Modal
@@ -13,6 +14,7 @@ function ModalWithMessage({
       activeModal={activeModal}
       isOpen={isOpen}
       modalContentClassName={modalContentClassName}
+      modalClassName={modalClassName}
     >
       <h2 className="modal__message">{message}</h2>
     </Modal>

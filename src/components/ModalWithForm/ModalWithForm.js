@@ -19,7 +19,6 @@ function ModalWithForm({
         onSubmit={(e) => {
           e.preventDefault();
           handleFormSubmit(e);
-          onCloseClick();
         }}
       >
         {children}

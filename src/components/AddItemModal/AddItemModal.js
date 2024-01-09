@@ -33,6 +33,7 @@ const AddItemModal = ({
     onAddItem(values.name, values.imageUrl, values.selectedTemp)
       .then(() => {
         setIsSubmitted(true);
+        onCloseClick();
       })
       .catch((err) => onAddItemFail(err));
   }
