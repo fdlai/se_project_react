@@ -6,15 +6,29 @@ import { useState, useEffect } from "react";
 export default function RegisterModal({
   isOpen,
   onCloseClick,
-  handleFormSubmit,
   onSecondButtonClick,
+  onSubmitRegisterModal,
+  onRegisterSubmitFail,
 }) {
   const { values, setValues, handleChange } = useForm({
-    email: "",
-    password: "",
-    name: "",
-    avatarURL: "",
+    inputValues: {
+      email: "",
+      password: "",
+      name: "",
+      avatarURL: "",
+    },
+    isOpen,
   });
+
+  function handleFormSubmit() {
+    onSubmitRegisterModal(values)
+      .then((data) => {
+        // clear modal
+        onCloseClick();
+      })
+      .catch((err) => onRegisterSubmitFail(err));
+  }
+
   return (
     <ModalWithForm
       title="Sign up"
@@ -67,7 +81,6 @@ export default function RegisterModal({
           value={values.name}
           type="text"
           placeholder="Name"
-          required
         />
       </label>
       <label className="modal__label">
@@ -79,7 +92,6 @@ export default function RegisterModal({
           value={values.avatarURL}
           type="url"
           placeholder="Avatar URL"
-          required
         />
       </label>
       {/* -------------------------------- Children

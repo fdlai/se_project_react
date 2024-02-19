@@ -10,8 +10,11 @@ export default function LoginModal({
   onSecondButtonClick,
 }) {
   const { values, setValues, handleChange } = useForm({
-    email: "",
-    password: "",
+    inputValues: {
+      email: "",
+      password: "",
+    },
+    isOpen,
   });
   return (
     <ModalWithForm

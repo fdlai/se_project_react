@@ -2,7 +2,7 @@
 
 ## About the project
 
-The WTWR project utilizes a backend server: The [Project Express](https://github.com/fdlai/se_project_express). The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user.
+The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user. The WTWR project utilizes a custom backend server: [se_project_express](https://github.com/fdlai/se_project_express).
 
 ## Project Features
 

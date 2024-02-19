@@ -19,6 +19,7 @@ import {
   postApiClothingItem,
   deleteApiClothingItem,
 } from "../../utils/api";
+import { register } from "../../utils/auth";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -38,7 +39,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   //message modal works on a different state, so that it can be open simultaneously with other modals
   const [messageModalOpen, setMessageModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   /* -------------------------------------------------------------------------- */
   /*                              Derived Variables                             */
@@ -172,9 +173,22 @@ function App() {
       });
   }
 
+  function handleRegisterModalSubmit({ email, password, name, avatarURL }) {
+    return register({ email, password, name, avatar: avatarURL }).then(
+      (userInfo) => {
+        console.log(userInfo);
+      }
+    );
+  }
+
   //Runs if an error occurs while trying to add a new clothing item
   function onAddItemFail(err) {
     setMessage(`${err}. Could not add clothing item.`);
+    setMessageModalOpen(true);
+  }
+
+  function onRegisterSubmitFail(err) {
+    setMessage(`${err}. Registration failed.`);
     setMessageModalOpen(true);
   }
 
@@ -274,6 +288,8 @@ function App() {
           isOpen={activeModal === "register"}
           onCloseClick={handleModalClose}
           onSecondButtonClick={openLoginModal}
+          onSubmitRegisterModal={handleRegisterModalSubmit}
+          onRegisterSubmitFail={onRegisterSubmitFail}
         />
         <LoginModal
           isOpen={activeModal === "login"}

@@ -1,6 +1,6 @@
 import { processServerResponse } from "./weatherApi";
 
-const baseUrl = "http://localhost:3001";
+export const baseUrl = "http://localhost:3001";
 
 export const getApiClothingItems = (controller) => {
   return fetch(`${baseUrl}/items`, { signal: controller.signal }).then(

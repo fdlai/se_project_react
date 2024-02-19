@@ -11,25 +11,15 @@ const AddItemModal = ({
   onAddItemFail,
 }) => {
   // This state essentially controls/keeps-track-of the form's input values
-  const { values, setValues, handleChange } = useForm({
-    name: "",
-    imageUrl: "",
-    selectedTemp: "",
-  });
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  //if the modal is open and it has been submitted, then reset the modal
-  useEffect(() => {
-    if (isOpen && isSubmitted) {
-      setValues({
+  const { values, setValues, handleChange, isSubmitted, setIsSubmitted } =
+    useForm({
+      inputValues: {
         name: "",
         imageUrl: "",
         selectedTemp: "",
-      });
-      setIsSubmitted(false);
-    }
-  }, [isOpen]);
+      },
+      isOpen,
+    });
 
   function handleFormSubmit(e) {
     onAddItem(values.name, values.imageUrl, values.selectedTemp)
