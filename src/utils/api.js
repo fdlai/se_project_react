@@ -1,15 +1,17 @@
 import { processServerResponse } from "./weatherApi";
 
-const baseUrl = "http://localhost:3001/items";
+const baseUrl = "http://localhost:3001";
 
 export const getApiClothingItems = (controller) => {
-  return fetch(`${baseUrl}`, { signal: controller.signal }).then((res) => {
-    return processServerResponse(res);
-  });
+  return fetch(`${baseUrl}/items`, { signal: controller.signal }).then(
+    (res) => {
+      return processServerResponse(res);
+    }
+  );
 };
 
 export const postApiClothingItem = ({ name, imageUrl, weather }) => {
-  return fetch(`${baseUrl}`, {
+  return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +27,7 @@ export const postApiClothingItem = ({ name, imageUrl, weather }) => {
 };
 
 export const deleteApiClothingItem = (id) => {
-  return fetch(`${baseUrl}/${id}`, {
+  return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

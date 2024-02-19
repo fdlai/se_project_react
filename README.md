@@ -2,7 +2,7 @@
 
 ## About the project
 
-The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user.
+The WTWR project utilizes a backend server: The [Project Express](https://github.com/fdlai/se_project_express). The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user.
 
 ## Project Features
 
@@ -29,3 +29,5 @@ Plans to add:
 - [Figma Design](https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR)
 
 - [Project on Github Pages](https://fdlai.github.io/se_project_react)
+
+- [Repository](https://github.com/fdlai/se_project_react)

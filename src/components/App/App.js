@@ -7,6 +7,8 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import ModalWithMessage from "../ModalWithMessage/ModalWithMessage";
 import ModalWithConfirmation from "../ModalWithConfirmation/ModalWithConfirmation";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import LoginModal from "../LoginModal/LoginModal";
 import { defaultClothingItems } from "../../utils/constants";
 import { getWeather, getTempDescription } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
@@ -36,6 +38,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   //message modal works on a different state, so that it can be open simultaneously with other modals
   const [messageModalOpen, setMessageModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                              Derived Variables                             */
@@ -108,6 +111,22 @@ function App() {
 
   const handleModalClose = () => {
     setActiveModal("");
+  };
+
+  const openRegisterModal = () => {
+    setActiveModal("register");
+  };
+
+  const openLoginModal = () => {
+    setActiveModal("login");
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
   };
 
   const handleMessageModalClose = () => {
@@ -187,6 +206,9 @@ function App() {
           className="page__header"
           location={location}
           onHeaderButtonClick={setModalToCreate}
+          onRegisterButtonClick={openRegisterModal}
+          onLoginButtonClick={openLoginModal}
+          isLoggedIn={isLoggedIn}
         />
         <Switch>
           <Route exact path="/">
@@ -247,6 +269,16 @@ function App() {
           modalCloseButtonClass={"modal__close-button_type_confirm"}
           onClickDelete={deleteClothingItem}
           itemData={selectedCardData}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onCloseClick={handleModalClose}
+          onSecondButtonClick={openLoginModal}
+        />
+        <LoginModal
+          isOpen={activeModal === "login"}
+          onCloseClick={handleModalClose}
+          onSecondButtonClick={openRegisterModal}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>

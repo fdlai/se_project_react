@@ -36,6 +36,22 @@
   gap: 12px;
 }
 
+.header__signup-button {
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.header__login-button {
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
 .header__name {
   text-align: right;
 }

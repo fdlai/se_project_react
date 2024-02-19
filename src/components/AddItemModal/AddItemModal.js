@@ -1,7 +1,7 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useForm from "../../hooks/useForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 //The specific modal which adds new clothes items
 const AddItemModal = ({
@@ -10,6 +10,7 @@ const AddItemModal = ({
   onAddItem,
   onAddItemFail,
 }) => {
+  // This state essentially controls/keeps-track-of the form's input values
   const { values, setValues, handleChange } = useForm({
     name: "",
     imageUrl: "",
@@ -18,6 +19,7 @@ const AddItemModal = ({
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  //if the modal is open and it has been submitted, then reset the modal
   useEffect(() => {
     if (isOpen && isSubmitted) {
       setValues({
@@ -52,7 +54,9 @@ const AddItemModal = ({
         <p className="modal__text">Name</p>
         <input
           className="modal__input"
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+          }}
           name="name"
           value={values.name}
           type="text"
