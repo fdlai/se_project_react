@@ -8,18 +8,17 @@ const AddItemModal = ({
   onCloseClick = () => {},
   isOpen,
   onAddItem,
-  onAddItemFail,
+  onFormSubmitFail,
 }) => {
   // This state essentially controls/keeps-track-of the form's input values
-  const { values, setValues, handleChange, isSubmitted, setIsSubmitted } =
-    useForm({
-      inputValues: {
-        name: "",
-        imageUrl: "",
-        selectedTemp: "",
-      },
-      isOpen,
-    });
+  const { values, handleChange, setIsSubmitted } = useForm({
+    inputValues: {
+      name: "",
+      imageUrl: "",
+      selectedTemp: "",
+    },
+    isOpen,
+  });
 
   function handleFormSubmit(e) {
     onAddItem(values.name, values.imageUrl, values.selectedTemp)
@@ -27,7 +26,7 @@ const AddItemModal = ({
         setIsSubmitted(true);
         onCloseClick();
       })
-      .catch((err) => onAddItemFail(err));
+      .catch((err) => onFormSubmitFail(err, "Could not add clothing item."));
   }
 
   return (

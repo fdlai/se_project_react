@@ -8,9 +8,9 @@ export default function RegisterModal({
   onCloseClick,
   onSecondButtonClick,
   onSubmitRegisterModal,
-  onRegisterSubmitFail,
+  onFormSubmitFail,
 }) {
-  const { values, setValues, handleChange } = useForm({
+  const { values, setIsSubmitted, handleChange } = useForm({
     inputValues: {
       email: "",
       password: "",
@@ -22,11 +22,11 @@ export default function RegisterModal({
 
   function handleFormSubmit() {
     onSubmitRegisterModal(values)
-      .then((data) => {
-        // clear modal
+      .then(() => {
+        setIsSubmitted(true);
         onCloseClick();
       })
-      .catch((err) => onRegisterSubmitFail(err));
+      .catch((err) => onFormSubmitFail(err, "Registration unsuccessful."));
   }
 
   return (

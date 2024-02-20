@@ -6,16 +6,29 @@ import { useState, useEffect } from "react";
 export default function LoginModal({
   isOpen,
   onCloseClick,
-  handleFormSubmit,
   onSecondButtonClick,
+  onSubmitLoginModal,
+  onFormSubmitFail,
 }) {
-  const { values, setValues, handleChange } = useForm({
+  const { values, handleChange, setIsSubmitted } = useForm({
     inputValues: {
       email: "",
       password: "",
     },
     isOpen,
   });
+
+  function handleFormSubmit() {
+    return onSubmitLoginModal(values)
+      .then(() => {
+        onCloseClick();
+        setIsSubmitted(true);
+      })
+      .catch((err) => {
+        onFormSubmitFail(err, "Could not log in.");
+      });
+  }
+
   return (
     <ModalWithForm
       title="Log in"

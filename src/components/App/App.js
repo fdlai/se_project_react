@@ -19,7 +19,7 @@ import {
   postApiClothingItem,
   deleteApiClothingItem,
 } from "../../utils/api";
-import { register } from "../../utils/auth";
+import { register, login } from "../../utils/auth";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -39,7 +39,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   //message modal works on a different state, so that it can be open simultaneously with other modals
   const [messageModalOpen, setMessageModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                              Derived Variables                             */
@@ -172,23 +172,27 @@ function App() {
         throw new Error(err);
       });
   }
-
+  //Runs when submitting the Register Modal
   function handleRegisterModalSubmit({ email, password, name, avatarURL }) {
     return register({ email, password, name, avatar: avatarURL }).then(
       (userInfo) => {
         console.log(userInfo);
+        //Log in user
+        return handleLoginModalSubmit({ email, password });
       }
     );
   }
-
-  //Runs if an error occurs while trying to add a new clothing item
-  function onAddItemFail(err) {
-    setMessage(`${err}. Could not add clothing item.`);
-    setMessageModalOpen(true);
+  //Runs when submitting the Login Modal
+  function handleLoginModalSubmit({ email, password }) {
+    return login(email, password).then((data) => {
+      handleLogin();
+      localStorage.setItem("jwt", data.token);
+      console.log(localStorage);
+    });
   }
 
-  function onRegisterSubmitFail(err) {
-    setMessage(`${err}. Registration failed.`);
+  function handleFormSubmitFail(err, message) {
+    setMessage(`${err}. ${message}`);
     setMessageModalOpen(true);
   }
 
@@ -253,7 +257,7 @@ function App() {
           clothingItems={clothingItems}
           setClothingItems={setClothingItems}
           onAddItem={handleAddItemSubmit}
-          onAddItemFail={onAddItemFail}
+          onFormSubmitFail={handleFormSubmitFail}
         />
 
         <ItemModal
@@ -289,12 +293,14 @@ function App() {
           onCloseClick={handleModalClose}
           onSecondButtonClick={openLoginModal}
           onSubmitRegisterModal={handleRegisterModalSubmit}
-          onRegisterSubmitFail={onRegisterSubmitFail}
+          onFormSubmitFail={handleFormSubmitFail}
         />
         <LoginModal
           isOpen={activeModal === "login"}
           onCloseClick={handleModalClose}
           onSecondButtonClick={openRegisterModal}
+          onSubmitLoginModal={handleLoginModalSubmit}
+          onFormSubmitFail={handleFormSubmitFail}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>
