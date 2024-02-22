@@ -59,6 +59,9 @@
   top: 24px;
   right: 24px;
   background: url(../../images/close-button-white.svg) no-repeat center;
+  /* can't see the close button against a white background, without changing background-color */
+  background-color: rgb(232, 232, 232);
+  border-radius: 4px;
 }
 
 .modal__close-button:hover {

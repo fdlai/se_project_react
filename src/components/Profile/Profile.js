@@ -7,10 +7,11 @@ function Profile({
   clothingItems,
   onCardImageClick,
   onAddButtonClick,
+  onLogoutButtonClick,
 }) {
   return (
     <div className={`profile ${className}`}>
-      <SideBar />
+      <SideBar onLogoutButtonClick={onLogoutButtonClick} />
       <div className="profile__title-container">
         <h2 className="profile__title">Your items</h2>
         <button className="profile__add-button" onClick={onAddButtonClick}>

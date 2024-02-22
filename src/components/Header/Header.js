@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Header.css";
 import logoImg from "../../images/logo.svg";
-import avatarImg from "../../images/avatar.svg";
+import avatarImg from "../../images/black-matte-background.jpg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import Avatar from "../Avatar/Avatar";
 
 function Header({
   className = "",
@@ -12,7 +14,11 @@ function Header({
   isLoggedIn,
   onRegisterButtonClick,
   onLoginButtonClick,
+  tokenChecked,
 }) {
+  let { name, avatar } = useContext(CurrentUserContext);
+  name = name || "Username";
+
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -26,46 +32,48 @@ function Header({
         </Link>
         <div className="header__date">{`${currentDate}, ${location}`}</div>
       </div>
-      <div className="header__avatar-container">
-        <ToggleSwitch />
-        {isLoggedIn && (
-          <div>
-            <button
-              className="header__button"
-              onClick={onHeaderButtonClick}
-              type="text"
-            >
-              + Add clothes
-            </button>
-          </div>
-        )}
-        {!isLoggedIn && (
-          <>
-            <button
-              className="header__signup-button"
-              onClick={onRegisterButtonClick}
-            >
-              Sign Up
-            </button>
-            <button
-              className="header__login-button"
-              onClick={onLoginButtonClick}
-            >
-              Log In
-            </button>
-          </>
-        )}
-        {isLoggedIn && (
-          <div className="header__user-info-container">
-            <Link to="/profile" className="header__link">
-              <div className="header__name">Terrence Tegegne</div>
-            </Link>
-            <Link to="/profile" className="header__link">
-              <img src={avatarImg} alt="avatar" />
-            </Link>
-          </div>
-        )}
-      </div>
+      {tokenChecked && (
+        <div className="header__avatar-container">
+          <ToggleSwitch />
+          {isLoggedIn && (
+            <div>
+              <button
+                className="header__button"
+                onClick={onHeaderButtonClick}
+                type="text"
+              >
+                + Add clothes
+              </button>
+            </div>
+          )}
+          {!isLoggedIn && (
+            <>
+              <button
+                className="header__signup-button"
+                onClick={onRegisterButtonClick}
+              >
+                Sign Up
+              </button>
+              <button
+                className="header__login-button"
+                onClick={onLoginButtonClick}
+              >
+                Log In
+              </button>
+            </>
+          )}
+          {isLoggedIn && (
+            <div className="header__user-info-container">
+              <Link to="/profile" className="header__link">
+                <div className="header__name">{name}</div>
+              </Link>
+              <Link to="/profile" className="header__link">
+                <Avatar name={name} avatar={avatar} width={40} />
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }

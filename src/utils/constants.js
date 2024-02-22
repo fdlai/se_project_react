@@ -1,3 +1,7 @@
+import { createColor } from "./helpers";
+
+export const color = createColor();
+
 export const defaultClothingItems = [
   {
     _id: 0,

@@ -1,0 +1,26 @@
+.avatar {
+  position: relative;
+}
+
+.avatar__image {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+}
+
+.avatar__background {
+  background-color: rgba(200, 150, 100, 1);
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.avatar__text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  color: #fff;
+}

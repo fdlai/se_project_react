@@ -3,6 +3,7 @@
   aspect-ratio: 1 / 1;
   border-radius: 20px 20px 0 0;
   display: block;
+  object-fit: contain;
 }
 
 .modal__info {
@@ -36,6 +37,10 @@
 
 .modal__image-delete-button:hover {
   opacity: 0.6;
+}
+
+.modal__image-delete-button_hidden {
+  visibility: hidden;
 }
 
 .modal__image-description {

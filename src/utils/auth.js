@@ -25,8 +25,14 @@ export const login = (email, password) => {
   });
 };
 
-// register({
-//   email: "JHorner@gmail.com",
-//   password: "12345",
-//   name: "James Horner",
-// });
+export const getCurrentUsersInfo = (token) => {
+  return fetch(`${baseUrl}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    return processServerResponse(res);
+  });
+};

@@ -2,7 +2,7 @@
   display: grid;
   grid-template-areas:
     "user title"
-    ". items";
+    "side-content items";
   row-gap: 16px;
   color: #000;
   font-family: "Cabinet Grotesk", "Arial", "sans-serif";
@@ -51,6 +51,7 @@
   .profile {
     grid-template-areas:
       "user"
+      "side-content"
       "title"
       "items";
     column-gap: 0;

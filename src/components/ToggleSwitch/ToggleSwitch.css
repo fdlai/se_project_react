@@ -23,6 +23,7 @@
   font-weight: 700;
   line-height: normal;
   transition: 0.15s ease-out;
+  user-select: none;
 }
 
 .switch__label:hover {

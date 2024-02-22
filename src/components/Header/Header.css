@@ -68,6 +68,12 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
+.header__image {
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
 .header__link {
   text-decoration: none;
 }
