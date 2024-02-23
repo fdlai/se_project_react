@@ -6,6 +6,10 @@
   object-fit: contain;
 }
 
+.modal__image_hidden {
+  visibility: hidden;
+}
+
 .modal__info {
   padding: 32px;
   display: flex;
@@ -40,7 +44,7 @@
 }
 
 .modal__image-delete-button_hidden {
-  visibility: hidden;
+  opacity: 0;
 }
 
 .modal__image-description {

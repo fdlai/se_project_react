@@ -19,7 +19,7 @@ function ItemCard({
     }
   }, [isLoggedIn]);
 
-  const setLikeButtonClass = () => {
+  const getLikeButtonClass = () => {
     if (isLiked) {
       return "card__like-button_liked";
     } else {
@@ -51,7 +51,7 @@ function ItemCard({
           <div className="card__name">{cardData.name}</div>
           {isLoggedIn && (
             <button
-              className={`card__like-button ${setLikeButtonClass()}`}
+              className={`card__like-button ${getLikeButtonClass()}`}
               onClick={handleButtonClick}
             ></button>
           )}

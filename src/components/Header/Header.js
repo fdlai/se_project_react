@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import logoImg from "../../images/logo.svg";
-import avatarImg from "../../images/black-matte-background.jpg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import CurrentUserContext from "../../contexts/CurrentUserContext";

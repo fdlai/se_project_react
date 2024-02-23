@@ -1,7 +1,6 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useForm from "../../hooks/useForm";
-import { useState, useEffect, useMemo } from "react";
 
 //The specific modal which adds new clothes items
 const AddItemModal = ({

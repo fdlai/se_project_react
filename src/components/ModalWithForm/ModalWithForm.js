@@ -13,14 +13,14 @@ function ModalWithForm({
   modalType,
   onSecondButtonClick,
 }) {
-  const setTitleClassModifier = () => {
+  const getTitleClassModifier = () => {
     if (modalType !== "create") {
       return "modal_title_type_small";
     }
     return "";
   };
 
-  const setSubmitButtonClassModifier = () => {
+  const getSubmitButtonClassModifier = () => {
     if (modalType === "register" || modalType === "login") {
       return "modal__submit-button_type_register";
     }
@@ -29,7 +29,7 @@ function ModalWithForm({
 
   return (
     <Modal isOpen={isOpen} name={name} onCloseClick={onCloseClick}>
-      <h2 className={`modal__title ${setTitleClassModifier()}`}>{title}</h2>
+      <h2 className={`modal__title ${getTitleClassModifier()}`}>{title}</h2>
       <form
         className="modal__form"
         action="submit"
@@ -41,7 +41,7 @@ function ModalWithForm({
         {children}
         <div className="modal__buttons-container">
           <button
-            className={`modal__submit-button ${setSubmitButtonClassModifier()}`}
+            className={`modal__submit-button ${getSubmitButtonClassModifier()}`}
           >
             {buttonText}
           </button>

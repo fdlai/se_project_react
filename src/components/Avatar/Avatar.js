@@ -4,7 +4,7 @@ import { color } from "../../utils/constants";
 function Avatar({ name = null, avatar = null, width = 40 }) {
   const updatedName = name || "Username";
 
-  const setAvatarText = () => {
+  const getAvatarText = () => {
     if (!avatar) {
       return updatedName[0].toUpperCase();
     } else {
@@ -42,7 +42,7 @@ function Avatar({ name = null, avatar = null, width = 40 }) {
         />
       )}
       <div className="avatar__text" style={avatarTextStyles}>
-        {setAvatarText()}
+        {getAvatarText()}
       </div>
     </div>
   );

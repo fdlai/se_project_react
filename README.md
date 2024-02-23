@@ -29,6 +29,7 @@ Plans to add:
 - Multiple pages, to support large number of clothing items
 - Some way to search or sort clothing items
 - Track number of likes on an item
+- Use current user's location to retrieve weather data
 
 ## Links
 

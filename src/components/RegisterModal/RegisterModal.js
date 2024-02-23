@@ -1,7 +1,6 @@
 import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import useForm from "../../hooks/useForm";
-import { useState, useEffect } from "react";
 
 export default function RegisterModal({
   isOpen,

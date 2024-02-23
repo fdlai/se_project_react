@@ -9,7 +9,6 @@ import ModalWithMessage from "../ModalWithMessage/ModalWithMessage";
 import ModalWithConfirmation from "../ModalWithConfirmation/ModalWithConfirmation";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { defaultClothingItems } from "../../utils/constants";
 import { getWeather, getTempDescription } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
@@ -30,6 +29,7 @@ import {
 import { register, login, getCurrentUsersInfo } from "../../utils/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import ContextProvider from "../ContextProvider/ContextProvider";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -68,7 +68,7 @@ function App() {
   const history = useHistory();
 
   /* -------------------------------------------------------------------------- */
-  /*                              Derived Variables                             */
+  /*                         Derived and other variables                        */
   /* -------------------------------------------------------------------------- */
   const temp = weatherData
     ? {
@@ -81,6 +81,13 @@ function App() {
       };
   const location = weatherData ? weatherData.name : "Loading...";
   const tempDescription = getTempDescription(temp.F); //undefined until weatherData is set to the fetched weather object
+
+  //props for the ContextProvider component
+  const contextProps = {
+    currentUser,
+    currentTemperatureUnit,
+    handleToggleSwitchChange,
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                 UseEffects                                 */
@@ -125,6 +132,7 @@ function App() {
     return () => controller.abort();
   }, []);
 
+  //logs user in on page load
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -148,11 +156,11 @@ function App() {
     setActiveModal("create");
   };
 
-  const setModalToDelete = () => {
+  const openDeleteModal = () => {
     setActiveModal("delete-item-confirm");
   };
 
-  const handleModalClose = () => {
+  const closeModal = () => {
     setActiveModal("");
   };
 
@@ -172,7 +180,7 @@ function App() {
   //   setActiveModal(modalName);
   // };
 
-  const handleLogin = ({ name, email, avatar, _id }) => {
+  const handleLogin = ({ name = "", email, avatar = "", _id }) => {
     setIsLoggedIn(true);
     setCurrentUser({ name, email, avatar, _id });
   };
@@ -195,7 +203,7 @@ function App() {
 
   function handleModalEscKey(e) {
     if (e.key === "Escape") {
-      handleModalClose();
+      closeModal();
       handleMessageModalClose();
     }
   }
@@ -205,11 +213,11 @@ function App() {
     setActiveModal("preview");
   };
   //Runs when clicking/changing the ToggleSwitch component
-  const handleToggleSwitchChange = () => {
+  function handleToggleSwitchChange() {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
-  };
+  }
   //Runs when submitting the addItem Modal
   function handleAddItemSubmit(name, imageUrl, selectedTemp) {
     return postApiClothingItem({
@@ -249,8 +257,10 @@ function App() {
       avatar: avatarURL,
       token: localStorage.getItem("jwt"),
     }).then((userInfo) => {
+      const name = userInfo.name || "";
+      const avatar = userInfo.avatar || "";
       setCurrentUser((prev) => {
-        return { ...prev, name: userInfo.name, avatar: userInfo.avatar };
+        return { ...prev, name, avatar };
       });
     });
   }
@@ -268,7 +278,7 @@ function App() {
       return likeItem(cardId, localStorage.getItem("jwt")).then(replaceItem);
     }
   }
-  //modify clothingItems array to remove the object with the passed in id. Runs when clicking 'delete' in the confirmation modal
+  //Runs when clicking 'delete' in the confirmation modal
   function deleteClothingItem(id) {
     deleteApiClothingItem(id, localStorage.getItem("jwt"))
       .then((data) => {
@@ -276,7 +286,7 @@ function App() {
           return item._id != id;
         });
         setClothingItems(newClothingItems);
-        handleModalClose();
+        closeModal();
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not delete clothing item.`);
@@ -292,115 +302,112 @@ function App() {
   /*                                     JSX                                    */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
-        <CurrentTemperatureUnitContext.Provider
-          value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-        >
-          <Header
-            className="page__header"
-            location={location}
-            onHeaderButtonClick={openAddItemModal}
-            onRegisterButtonClick={openRegisterModal}
-            onLoginButtonClick={openLoginModal}
-            isLoggedIn={isLoggedIn}
-            tokenChecked={tokenChecked}
-          />
-          <Switch>
-            <Route exact path="/">
-              <Main
-                className="page__main"
-                onCardImageClick={handleSelectedCardData}
-                temp={temp}
-                tempDescription={tempDescription}
-                weatherData={weatherData}
-                clothingItems={clothingItems}
-                onLikeButtonClick={handleLikeButtonClick}
-                onFetchError={handleErrorMessage}
-                isLoggedIn={isLoggedIn}
-              />
-            </Route>
-            <ProtectedRoute
+    <ContextProvider {...contextProps}>
+      <div className="page">
+        <Header
+          className="page__header"
+          location={location}
+          onHeaderButtonClick={openAddItemModal}
+          onRegisterButtonClick={openRegisterModal}
+          onLoginButtonClick={openLoginModal}
+          isLoggedIn={isLoggedIn}
+          tokenChecked={tokenChecked}
+        />
+        <Switch>
+          <Route exact path="/">
+            <Main
+              className="page__main"
+              onCardImageClick={handleSelectedCardData}
+              temp={temp}
+              tempDescription={tempDescription}
+              weatherData={weatherData}
+              clothingItems={clothingItems}
+              onLikeButtonClick={handleLikeButtonClick}
+              onFetchError={handleErrorMessage}
               isLoggedIn={isLoggedIn}
-              path="/profile"
-              tokenChecked={tokenChecked}
-            >
-              <Profile
-                className="page__profile"
-                clothingItems={clothingItems}
-                onCardImageClick={handleSelectedCardData}
-                onAddButtonClick={openAddItemModal}
-                onLogoutButtonClick={handleLogout}
-                onEditProfileButtonClick={openEditProfileModal}
-                onLikeButtonClick={handleLikeButtonClick}
-                onFetchError={handleErrorMessage}
-                isLoggedIn={isLoggedIn}
-              />
-            </ProtectedRoute>
-          </Switch>
-          <Footer className="page__footer" />
+            />
+          </Route>
+          <ProtectedRoute
+            isLoggedIn={isLoggedIn}
+            path="/profile"
+            tokenChecked={tokenChecked}
+          >
+            <Profile
+              className="page__profile"
+              clothingItems={clothingItems}
+              onCardImageClick={handleSelectedCardData}
+              onAddButtonClick={openAddItemModal}
+              onLogoutButtonClick={handleLogout}
+              onEditProfileButtonClick={openEditProfileModal}
+              onLikeButtonClick={handleLikeButtonClick}
+              onFetchError={handleErrorMessage}
+              isLoggedIn={isLoggedIn}
+            />
+          </ProtectedRoute>
+        </Switch>
+        <Footer className="page__footer" />
 
-          <AddItemModal
-            isOpen={activeModal === "create"}
-            setActiveModal={setActiveModal}
-            onCloseClick={handleModalClose}
-            clothingItems={clothingItems}
-            setClothingItems={setClothingItems}
-            onAddItem={handleAddItemSubmit}
-            onFormSubmitFail={handleErrorMessage}
-          />
+        <AddItemModal
+          isOpen={activeModal === "create"}
+          setActiveModal={setActiveModal}
+          onCloseClick={closeModal}
+          clothingItems={clothingItems}
+          setClothingItems={setClothingItems}
+          onAddItem={handleAddItemSubmit}
+          onFormSubmitFail={handleErrorMessage}
+        />
 
-          <ItemModal
-            isOpen={activeModal === "preview"}
-            onCloseClick={handleModalClose}
-            onPressEsc={handleModalEscKey}
-            itemData={selectedCardData}
-            modalCloseButtonClass={"modal__close-button_type_white"}
-            modalContentClassName={"modal__content_type_image"}
-            onClickDelete={setModalToDelete}
-          />
+        <ItemModal
+          isOpen={activeModal === "preview"}
+          onCloseClick={closeModal}
+          onPressEsc={handleModalEscKey}
+          itemData={selectedCardData}
+          modalCloseButtonClass={"modal__close-button_type_white"}
+          modalContentClassName={"modal__content_type_image"}
+          onClickDelete={openDeleteModal}
+          //key={selectedCardData.imageUrl}
+        />
 
-          <ModalWithMessage
-            isOpen={messageModalOpen}
-            message={message}
-            onCloseClick={handleMessageModalClose}
-            onPressEsc={handleModalEscKey}
-            activeModal={activeModal}
-            modalContentClassName={"modal__content_type_message"}
-            modalClassName={"modal_type_message-active"}
-          />
+        <ModalWithMessage
+          isOpen={messageModalOpen}
+          message={message}
+          onCloseClick={handleMessageModalClose}
+          onPressEsc={handleModalEscKey}
+          activeModal={activeModal}
+          modalContentClassName={"modal__content_type_message"}
+          modalClassName={"modal_type_message-active"}
+        />
 
-          <ModalWithConfirmation
-            isOpen={activeModal === "delete-item-confirm"}
-            onCloseClick={handleModalClose}
-            modalContentClassName={"modal__content_type_confirm"}
-            modalCloseButtonClass={"modal__close-button_type_confirm"}
-            onClickDelete={deleteClothingItem}
-            itemData={selectedCardData}
-          />
-          <RegisterModal
-            isOpen={activeModal === "register"}
-            onCloseClick={handleModalClose}
-            onSecondButtonClick={openLoginModal}
-            onSubmitRegisterModal={handleRegisterModalSubmit}
-            onFormSubmitFail={handleErrorMessage}
-          />
-          <LoginModal
-            isOpen={activeModal === "login"}
-            onCloseClick={handleModalClose}
-            onSecondButtonClick={openRegisterModal}
-            onSubmitLoginModal={handleLoginModalSubmit}
-            onFormSubmitFail={handleErrorMessage}
-          />
-          <EditProfileModal
-            isOpen={activeModal === "edit-profile"}
-            onCloseClick={handleModalClose}
-            onSubmitEditProfileModal={handleEditProfileModalSubmit}
-            onFormSubmitFail={handleErrorMessage}
-          />
-        </CurrentTemperatureUnitContext.Provider>
-      </CurrentUserContext.Provider>
-    </div>
+        <ModalWithConfirmation
+          isOpen={activeModal === "delete-item-confirm"}
+          onCloseClick={closeModal}
+          modalContentClassName={"modal__content_type_confirm"}
+          modalCloseButtonClass={"modal__close-button_type_confirm"}
+          onClickDelete={deleteClothingItem}
+          itemData={selectedCardData}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onCloseClick={closeModal}
+          onSecondButtonClick={openLoginModal}
+          onSubmitRegisterModal={handleRegisterModalSubmit}
+          onFormSubmitFail={handleErrorMessage}
+        />
+        <LoginModal
+          isOpen={activeModal === "login"}
+          onCloseClick={closeModal}
+          onSecondButtonClick={openRegisterModal}
+          onSubmitLoginModal={handleLoginModalSubmit}
+          onFormSubmitFail={handleErrorMessage}
+        />
+        <EditProfileModal
+          isOpen={activeModal === "edit-profile"}
+          onCloseClick={closeModal}
+          onSubmitEditProfileModal={handleEditProfileModalSubmit}
+          onFormSubmitFail={handleErrorMessage}
+        />
+      </div>
+    </ContextProvider>
   );
 }
 

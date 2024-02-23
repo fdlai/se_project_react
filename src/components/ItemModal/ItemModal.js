@@ -1,6 +1,6 @@
 import "./ItemModal.css";
 import Modal from "../Modal/Modal";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function ItemModal({
@@ -11,13 +11,28 @@ function ItemModal({
   modalCloseButtonClass,
   onClickDelete,
 }) {
+  //track whether to show the image or not
+  const [displayImage, setDisplayImage] = useState(false);
   const { _id } = useContext(CurrentUserContext);
 
-  const setDeleteButtonClass = () => {
+  //set displayImage to false everytime the image url changes
+  useEffect(() => {
+    setDisplayImage(false);
+  }, [itemData.imageUrl]);
+
+  const getDeleteButtonClass = () => {
     if (itemData.owner === _id || itemData.owner?._id === _id) {
       return "";
     } else {
       return "modal__image-delete-button_hidden";
+    }
+  };
+
+  const getImageClass = () => {
+    if (displayImage) {
+      return "";
+    } else {
+      return "modal__image_hidden";
     }
   };
 
@@ -31,13 +46,16 @@ function ItemModal({
       <img
         src={itemData.imageUrl}
         alt={itemData.name}
-        className="modal__image"
+        className={`modal__image ${getImageClass()}`}
+        onLoad={() => {
+          setDisplayImage(true);
+        }}
       />
       <div className="modal__info">
         <div className="modal__image-row">
           <p className="modal__image-name">{itemData.name}</p>
           <button
-            className={`modal__image-delete-button ${setDeleteButtonClass()}`}
+            className={`modal__image-delete-button ${getDeleteButtonClass()}`}
             onClick={(e) => {
               onClickDelete(e);
             }}
