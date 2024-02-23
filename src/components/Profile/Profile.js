@@ -8,10 +8,17 @@ function Profile({
   onCardImageClick,
   onAddButtonClick,
   onLogoutButtonClick,
+  onEditProfileButtonClick,
+  onLikeButtonClick,
+  onFetchError,
+  isLoggedIn,
 }) {
   return (
     <div className={`profile ${className}`}>
-      <SideBar onLogoutButtonClick={onLogoutButtonClick} />
+      <SideBar
+        onLogoutButtonClick={onLogoutButtonClick}
+        onEditProfileButtonClick={onEditProfileButtonClick}
+      />
       <div className="profile__title-container">
         <h2 className="profile__title">Your items</h2>
         <button className="profile__add-button" onClick={onAddButtonClick}>
@@ -21,6 +28,9 @@ function Profile({
       <ClothesSection
         clothingItems={clothingItems}
         onCardImageClick={onCardImageClick}
+        onLikeButtonClick={onLikeButtonClick}
+        onFetchError={onFetchError}
+        isLoggedIn={isLoggedIn}
       />
     </div>
   );

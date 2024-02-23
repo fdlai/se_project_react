@@ -36,6 +36,7 @@ const AddItemModal = ({
       buttonText="Add garment"
       handleFormSubmit={handleFormSubmit}
       isOpen={isOpen}
+      modalType={"create"}
     >
       {/* -------------------------------- Children
       -------------------------------- */}

@@ -23,9 +23,13 @@ import {
   getApiClothingItems,
   postApiClothingItem,
   deleteApiClothingItem,
+  updateUserInfo,
+  likeItem,
+  unLikeItem,
 } from "../../utils/api";
 import { register, login, getCurrentUsersInfo } from "../../utils/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -140,7 +144,7 @@ function App() {
   /* -------------------------------------------------------------------------- */
   /*                                  Functions                                 */
   /* -------------------------------------------------------------------------- */
-  const setModalToCreate = () => {
+  const openAddItemModal = () => {
     setActiveModal("create");
   };
 
@@ -160,6 +164,14 @@ function App() {
     setActiveModal("login");
   };
 
+  const openEditProfileModal = () => {
+    setActiveModal("edit-profile");
+  };
+
+  // const openModal = (modalName) => {
+  //   setActiveModal(modalName);
+  // };
+
   const handleLogin = ({ name, email, avatar, _id }) => {
     setIsLoggedIn(true);
     setCurrentUser({ name, email, avatar, _id });
@@ -167,6 +179,12 @@ function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setCurrentUser({
+      name: "",
+      email: "",
+      avatar: "",
+      _id: "",
+    });
     localStorage.removeItem("jwt");
     history.push("/");
   };
@@ -222,15 +240,34 @@ function App() {
     return login(email, password).then((userInfo) => {
       handleLogin(userInfo);
       localStorage.setItem("jwt", userInfo.token);
-      console.log(localStorage);
     });
   }
-
-  function handleFormSubmitFail(err, message) {
-    setMessage(`${err}. ${message}`);
-    setMessageModalOpen(true);
+  //Runs when submitting the Edit profile modal
+  function handleEditProfileModalSubmit({ name, avatarURL }) {
+    return updateUserInfo({
+      name,
+      avatar: avatarURL,
+      token: localStorage.getItem("jwt"),
+    }).then((userInfo) => {
+      setCurrentUser((prev) => {
+        return { ...prev, name: userInfo.name, avatar: userInfo.avatar };
+      });
+    });
   }
-
+  //Runs when clicking a card's like button
+  function handleLikeButtonClick({ cardId, isLiked }) {
+    const replaceItem = (updatedItem) => {
+      const updatedClothingItems = clothingItems.map((item) =>
+        item._id === updatedItem._id ? updatedItem : item
+      );
+      setClothingItems(updatedClothingItems);
+    };
+    if (isLiked) {
+      return unLikeItem(cardId, localStorage.getItem("jwt")).then(replaceItem);
+    } else {
+      return likeItem(cardId, localStorage.getItem("jwt")).then(replaceItem);
+    }
+  }
   //modify clothingItems array to remove the object with the passed in id. Runs when clicking 'delete' in the confirmation modal
   function deleteClothingItem(id) {
     deleteApiClothingItem(id, localStorage.getItem("jwt"))
@@ -246,6 +283,10 @@ function App() {
         setMessageModalOpen(true);
       });
   }
+  function handleErrorMessage(err, message) {
+    setMessage(`${err}. ${message}`);
+    setMessageModalOpen(true);
+  }
 
   /* -------------------------------------------------------------------------- */
   /*                                     JSX                                    */
@@ -259,7 +300,7 @@ function App() {
           <Header
             className="page__header"
             location={location}
-            onHeaderButtonClick={setModalToCreate}
+            onHeaderButtonClick={openAddItemModal}
             onRegisterButtonClick={openRegisterModal}
             onLoginButtonClick={openLoginModal}
             isLoggedIn={isLoggedIn}
@@ -274,6 +315,9 @@ function App() {
                 tempDescription={tempDescription}
                 weatherData={weatherData}
                 clothingItems={clothingItems}
+                onLikeButtonClick={handleLikeButtonClick}
+                onFetchError={handleErrorMessage}
+                isLoggedIn={isLoggedIn}
               />
             </Route>
             <ProtectedRoute
@@ -285,8 +329,12 @@ function App() {
                 className="page__profile"
                 clothingItems={clothingItems}
                 onCardImageClick={handleSelectedCardData}
-                onAddButtonClick={setModalToCreate}
+                onAddButtonClick={openAddItemModal}
                 onLogoutButtonClick={handleLogout}
+                onEditProfileButtonClick={openEditProfileModal}
+                onLikeButtonClick={handleLikeButtonClick}
+                onFetchError={handleErrorMessage}
+                isLoggedIn={isLoggedIn}
               />
             </ProtectedRoute>
           </Switch>
@@ -299,7 +347,7 @@ function App() {
             clothingItems={clothingItems}
             setClothingItems={setClothingItems}
             onAddItem={handleAddItemSubmit}
-            onFormSubmitFail={handleFormSubmitFail}
+            onFormSubmitFail={handleErrorMessage}
           />
 
           <ItemModal
@@ -335,14 +383,20 @@ function App() {
             onCloseClick={handleModalClose}
             onSecondButtonClick={openLoginModal}
             onSubmitRegisterModal={handleRegisterModalSubmit}
-            onFormSubmitFail={handleFormSubmitFail}
+            onFormSubmitFail={handleErrorMessage}
           />
           <LoginModal
             isOpen={activeModal === "login"}
             onCloseClick={handleModalClose}
             onSecondButtonClick={openRegisterModal}
             onSubmitLoginModal={handleLoginModalSubmit}
-            onFormSubmitFail={handleFormSubmitFail}
+            onFormSubmitFail={handleErrorMessage}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "edit-profile"}
+            onCloseClick={handleModalClose}
+            onSubmitEditProfileModal={handleEditProfileModalSubmit}
+            onFormSubmitFail={handleErrorMessage}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

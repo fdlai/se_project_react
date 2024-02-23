@@ -57,7 +57,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 20px; /* 125% */
-  width: 124px;
+  padding: 0 16px;
   height: 36px;
   color: #fff;
   border-radius: 4px;
@@ -69,8 +69,6 @@
 }
 
 .modal__submit-button_type_register {
-  width: 65px;
-  height: 36px;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.3);
 }

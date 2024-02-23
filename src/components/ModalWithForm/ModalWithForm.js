@@ -14,7 +14,7 @@ function ModalWithForm({
   onSecondButtonClick,
 }) {
   const setTitleClassModifier = () => {
-    if (modalType === "register" || modalType === "login") {
+    if (modalType !== "create") {
       return "modal_title_type_small";
     }
     return "";

@@ -15,14 +15,20 @@ The idea of the application is pretty simple - we make a call to an API, which t
 - Media Queries
 - Sticky footer
 - React Components
+- Custom Backend Server
 - API fetching
+- User Registration
+- Logging in and out
+- User Profile Section
+- Authorized Routes
 
 ## Plan on improving the project
 
 Plans to add:
 
-- ability to add new garments
-- ability to change name and avatar
+- Multiple pages, to support large number of clothing items
+- Some way to search or sort clothing items
+- Track number of likes on an item
 
 ## Links
 
@@ -31,3 +37,5 @@ Plans to add:
 - [Project on Github Pages](https://fdlai.github.io/se_project_react)
 
 - [Repository](https://github.com/fdlai/se_project_react)
+
+- [se_project_express](https://github.com/fdlai/se_project_express).

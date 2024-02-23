@@ -39,14 +39,18 @@
   object-fit: cover;
 }
 
-.card__name-container {
+.card__content-container {
   position: absolute;
-  top: 18px;
+  top: 15px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  pointer-events: none;
+}
+
+.card__content {
+  display: flex;
+  gap: 10px;
 }
 
 .card__name {
@@ -59,7 +63,26 @@
   font-style: normal;
   font-weight: 700;
   text-align: center;
-  line-height: 20px; /* 125% */
+  line-height: 24px; /* 125% */
+}
+
+.card__like-button {
+  background-image: url("../../images/like-button-clear.svg");
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 20px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.card__like-button_liked {
+  background-image: url("../../images/like-button-filled.svg");
+}
+
+.card__like-button_liked:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 750px) {

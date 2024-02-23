@@ -11,6 +11,9 @@ function Main({
   tempDescription,
   weatherData,
   clothingItems,
+  onLikeButtonClick,
+  onFetchError,
+  isLoggedIn,
 }) {
   const filteredClothingItems = clothingItems?.filter((item) => {
     return item.weather.toLowerCase() === tempDescription;
@@ -41,6 +44,9 @@ function Main({
                   key={cardData._id}
                   cardData={cardData}
                   onCardImageClick={onCardImageClick}
+                  onLikeButtonClick={onLikeButtonClick}
+                  onFetchError={onFetchError}
+                  isLoggedIn={isLoggedIn}
                 />
               );
             })}
