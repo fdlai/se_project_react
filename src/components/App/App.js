@@ -311,7 +311,7 @@ function App() {
           <Header
             className="page__header"
             location={location}
-            onHeaderButtonClick={openAddItemModal}
+            onHeaderButtonClick={() => setActiveModal("create")}
             onRegisterButtonClick={openRegisterModal}
             onLoginButtonClick={openLoginModal}
             isLoggedIn={isLoggedIn}
@@ -369,7 +369,6 @@ function App() {
             modalCloseButtonClass={"modal__close-button_type_white"}
             modalContentClassName={"modal__content_type_image"}
             onClickDelete={openDeleteModal}
-            //key={selectedCardData.imageUrl}
           />
 
           <ModalWithMessage

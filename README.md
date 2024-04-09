@@ -35,7 +35,7 @@ Plans to add:
 
 - [Figma Design](https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR)
 
-- [Project on Github Pages](https://fdlai.github.io/se_project_react)
+- [Project Link](https://fdlai.nodnor.com)
 
 - [Repository](https://github.com/fdlai/se_project_react)
 

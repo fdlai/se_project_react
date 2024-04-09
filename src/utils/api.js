@@ -1,6 +1,9 @@
 import { processServerResponse } from "./weatherApi";
 
-export const baseUrl = "http://localhost:3001";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.fdlai.nodnor.com"
+    : "http://localhost:3001";
 
 export const getApiClothingItems = (controller) => {
   return fetch(`${baseUrl}/items`, { signal: controller.signal }).then(
