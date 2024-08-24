@@ -35,6 +35,15 @@
 
 .modal__radio-checkbox {
   cursor: pointer;
+  accent-color: black;
+}
+
+.modal__radio-span {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.modal__radio-checkbox:checked ~ .modal__radio-span {
+  color: black;
 }
 
 .modal__input {

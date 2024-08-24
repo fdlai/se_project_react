@@ -77,6 +77,7 @@ Plans to add:
 - Some way to search or sort clothing items
 - Track number of likes on an item
 - Use current user's location to retrieve weather data
+- Add dark mode option
 
 ## Contributing
 

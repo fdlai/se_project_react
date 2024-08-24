@@ -16,6 +16,8 @@ function ItemCard({
   useEffect(() => {
     if (cardData.likes.includes(_id)) {
       setIsLiked(true);
+    } else {
+      setIsLiked(false);
     }
   }, [isLoggedIn]);
 

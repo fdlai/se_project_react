@@ -80,7 +80,7 @@ const AddItemModal = ({
             required
             checked={values.selectedTemp === "hot"}
           />
-          Hot
+          <span className="modal__radio-span">Hot</span>
         </label>
       </div>
       <div className="modal__radio-container">
@@ -95,7 +95,7 @@ const AddItemModal = ({
             required
             checked={values.selectedTemp === "warm"}
           />
-          Warm
+          <span className="modal__radio-span">Warm</span>
         </label>
       </div>
       <div className="modal__radio-container">
@@ -110,7 +110,7 @@ const AddItemModal = ({
             required
             checked={values.selectedTemp === "cold"}
           />
-          Cold
+          <span className="modal__radio-span">Cold</span>
         </label>
       </div>
       {/* -------------------------------- Children

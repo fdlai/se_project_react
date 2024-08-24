@@ -4,13 +4,22 @@ import { useContext } from "react";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 function WeatherCard({ className = "", temp, weatherData }) {
-  const weatherCondition = weatherData
-    ? weatherData.weather[0].main
-    : "Loading...";
-  const sunrise = weatherData ? weatherData.sys.sunrise : "Loading...";
-  const sunset = weatherData ? weatherData.sys.sunset : "Loading...";
+  // variables calculated from weatherData
+  let weatherCondition = "Loading...";
+  let sunrise = null;
+  let sunset = null;
+  let isDay = false;
+
   const timeNow = Date.now() / 1000;
-  const isDay = sunrise < timeNow && timeNow < sunset;
+
+  if (weatherData) {
+    // weatherCondition will be Clear, Clouds, Rain, Drizzle, etc...
+    weatherCondition = weatherData.weather[0].main;
+    sunrise = weatherData.sys.sunrise;
+    sunset = weatherData.sys.sunset;
+    isDay = sunrise < timeNow && timeNow < sunset;
+  }
+
   const url = getWeatherCardImage(isDay, weatherCondition);
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 

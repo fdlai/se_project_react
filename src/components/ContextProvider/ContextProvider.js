@@ -4,14 +4,13 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function ContextProvider({
   children,
-  currentUser,
-  currentTemperatureUnit,
-  handleToggleSwitchChange,
+  currentUserProps,
+  currentTemperatureUnitProps,
 }) {
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUserProps}>
       <CurrentTemperatureUnitContext.Provider
-        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+        value={currentTemperatureUnitProps}
       >
         {children}
       </CurrentTemperatureUnitContext.Provider>

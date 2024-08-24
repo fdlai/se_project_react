@@ -7,6 +7,7 @@
   flex-direction: column;
   min-height: 100vh;
   transition: padding 0.3s linear;
+  /* background-color: rgb(50, 50, 50); */
 }
 
 .page__header {
