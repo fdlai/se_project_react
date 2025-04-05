@@ -10,11 +10,16 @@ const AddItemModal = ({
   onFormSubmitFail,
 }) => {
   // This state essentially controls/keeps-track-of the form's input values
-  const { values, handleChange, setIsSubmitted } = useForm({
+  const { values, handleChange, setIsSubmitted, isFormValid } = useForm({
     inputValues: {
       name: "",
       imageUrl: "",
       selectedTemp: "",
+    },
+    defaultValidities: {
+      nameValid: false,
+      imageUrlValid: false,
+      selectedTempValid: false,
     },
     isOpen,
   });
@@ -32,7 +37,6 @@ const AddItemModal = ({
     <ModalWithForm
       title="New garment"
       onCloseClick={onCloseClick}
-      buttonText="Add garment"
       handleFormSubmit={handleFormSubmit}
       isOpen={isOpen}
       modalType={"create"}
@@ -112,6 +116,15 @@ const AddItemModal = ({
           />
           <span className="modal__radio-span">Cold</span>
         </label>
+      </div>
+      <div className="modal__buttons-container">
+        <button
+          className={`modal__submit-button ${
+            isFormValid && "modal__submit-button_active"
+          }`}
+        >
+          Add garment
+        </button>
       </div>
       {/* -------------------------------- Children
       -------------------------------- */}

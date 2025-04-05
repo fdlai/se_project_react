@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -70,26 +70,32 @@ function App() {
   /* -------------------------------------------------------------------------- */
   /*                         Derived and other variables                        */
   /* -------------------------------------------------------------------------- */
-  const temp = weatherData
-    ? {
-        F: Math.round(weatherData.main.temp),
-        C: Math.round(((weatherData.main.temp - 32) * 5) / 9),
-      }
-    : {
-        F: "Loading...",
-        C: "Loading...",
-      };
+  const temp = useMemo(() => {
+    return weatherData
+      ? {
+          F: Math.round(weatherData.main.temp),
+          C: Math.round(((weatherData.main.temp - 32) * 5) / 9),
+        }
+      : {
+          F: "Loading...",
+          C: "Loading...",
+        };
+  }, [weatherData]);
+
   const location = weatherData ? weatherData.name : "Loading...";
+
   const tempDescription = getTempDescription(temp.F); //undefined until weatherData is set to the fetched weather object
 
   //props for the ContextProvider component
-  const contextProps = {
-    currentUserProps: { ...currentUser },
-    currentTemperatureUnitProps: {
-      currentTemperatureUnit,
-      handleToggleSwitchChange,
-    },
-  };
+  const contextProps = useMemo(() => {
+    return {
+      currentUserProps: { ...currentUser },
+      currentTemperatureUnitProps: {
+        currentTemperatureUnit,
+        handleToggleSwitchChange,
+      },
+    };
+  }, [currentUser, currentTemperatureUnit]);
 
   /* -------------------------------------------------------------------------- */
   /*                                 UseEffects                                 */
@@ -154,9 +160,9 @@ function App() {
   /* -------------------------------------------------------------------------- */
   /*                                  Functions                                 */
   /* -------------------------------------------------------------------------- */
-  const openAddItemModal = () => {
+  const openAddItemModal = useCallback(() => {
     setActiveModal("create");
-  };
+  }, []);
 
   const openDeleteModal = () => {
     setActiveModal("delete-item-confirm");
@@ -166,13 +172,13 @@ function App() {
     setActiveModal("");
   };
 
-  const openRegisterModal = () => {
+  const openRegisterModal = useCallback(() => {
     setActiveModal("register");
-  };
+  }, []);
 
-  const openLoginModal = () => {
+  const openLoginModal = useCallback(() => {
     setActiveModal("login");
-  };
+  }, []);
 
   const openEditProfileModal = () => {
     setActiveModal("edit-profile");
@@ -309,7 +315,7 @@ function App() {
         <Header
           className="page__header"
           location={location}
-          onHeaderButtonClick={() => setActiveModal("create")}
+          onHeaderButtonClick={openAddItemModal}
           onRegisterButtonClick={openRegisterModal}
           onLoginButtonClick={openLoginModal}
           isLoggedIn={isLoggedIn}
@@ -362,7 +368,6 @@ function App() {
         <ItemModal
           isOpen={activeModal === "preview"}
           onCloseClick={closeModal}
-          onPressEsc={handleModalEscKey}
           itemData={selectedCardData}
           modalCloseButtonClass={"modal__close-button_type_white"}
           modalContentClassName={"modal__content_type_image"}
@@ -373,7 +378,6 @@ function App() {
           isOpen={messageModalOpen}
           message={message}
           onCloseClick={handleMessageModalClose}
-          onPressEsc={handleModalEscKey}
           activeModal={activeModal}
           modalContentClassName={"modal__content_type_message"}
           modalClassName={"modal_type_message-active"}

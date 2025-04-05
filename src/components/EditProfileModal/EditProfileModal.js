@@ -1,7 +1,8 @@
 import "./EditProfileModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import useForm from "../../hooks/useForm";
 
 export default function EditProfileModal({
   isOpen,
@@ -10,7 +11,18 @@ export default function EditProfileModal({
   onFormSubmitFail,
 }) {
   const { name, avatar } = useContext(CurrentUserContext);
-  const [values, setValues] = useState({ name: "", avatarURL: "" });
+
+  const { values, handleChange, setValues, isFormValid } = useForm({
+    inputValues: {
+      name: "",
+      avatarURL: "",
+    },
+    defaultValidities: {
+      nameValid: true,
+      avatarURLValid: true,
+    },
+    isOpen,
+  });
 
   //autofill the current name and avatar when opening the modal
   useEffect(() => {
@@ -18,10 +30,6 @@ export default function EditProfileModal({
       setValues({ name, avatarURL: avatar });
     }
   }, [isOpen]);
-
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
 
   function handleFormSubmit() {
     onSubmitEditProfileModal(values)
@@ -37,7 +45,6 @@ export default function EditProfileModal({
     <ModalWithForm
       title="Change profile data"
       onCloseClick={onCloseClick}
-      buttonText="Save changes"
       handleFormSubmit={handleFormSubmit}
       isOpen={isOpen}
       modalType="edit-profile"
@@ -68,6 +75,15 @@ export default function EditProfileModal({
           placeholder="URL"
         />
       </label>
+      <div className="modal__buttons-container">
+        <button
+          className={`modal__submit-button ${
+            isFormValid && "modal__submit-button_active"
+          }`}
+        >
+          Save changes
+        </button>
+      </div>
       {/* -------------------------------- Children
       -------------------------------- */}
     </ModalWithForm>

@@ -1,7 +1,7 @@
 .switch__input {
   height: 0;
   width: 0;
-  visibility: hidden;
+  opacity: 0;
 }
 
 .switch__label {
@@ -24,6 +24,7 @@
   line-height: normal;
   transition: 0.15s ease-out;
   user-select: none;
+  background-color: transparent;
 }
 
 .switch__label:hover {
@@ -73,4 +74,26 @@
 
 .switch__label:active .switch__slider {
   width: 32px;
+}
+
+.switch__label:active {
+  background-color: white;
+}
+
+.switch__input:focus ~ .switch__label .switch__slider {
+  width: 30px;
+  height: 30px;
+}
+
+.switch__input:focus ~ .switch__label {
+  border: 2px solid black;
+  background-color: white;
+}
+
+.switch__input:focus:not(:checked) ~ .switch__label .switch__text-C {
+  color: black;
+}
+
+.switch__input:focus:checked ~ .switch__label .switch__text-F {
+  color: black;
 }

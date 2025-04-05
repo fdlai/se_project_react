@@ -1,18 +1,20 @@
 import "./Avatar.css";
 import { color } from "../../utils/constants";
+import { useRef, useState } from "react";
 
 function Avatar({ name = null, avatar = null, width = 40 }) {
+  const [isImageValid, setIsImageValid] = useState(true);
+  const avatarRef = useRef();
   const updatedName = name || "Username";
 
   const getAvatarText = () => {
-    if (!avatar) {
-      return updatedName[0].toUpperCase();
-    } else {
-      return "";
-    }
+    return updatedName[0].toUpperCase();
   };
 
-  const avatarImageStyles = { width: `${width}px` };
+  const avatarImageStyles = {
+    width: `${width}px`,
+    display: `${avatar && isImageValid ? "block" : "none"}`,
+  };
 
   const avatarTextStyles = {
     lineHeight: `${width}px`,
@@ -26,24 +28,28 @@ function Avatar({ name = null, avatar = null, width = 40 }) {
 
   return (
     <div className="avatar">
-      {avatar && (
-        <img
-          className="avatar__image"
-          src={avatar}
-          style={avatarImageStyles}
-          alt="avatar"
-        />
-      )}
-      {!avatar && (
-        <div
-          className="avatar__background"
-          style={avatarBackgroundStyles}
-          alt="avatar"
-        />
-      )}
-      <div className="avatar__text" style={avatarTextStyles}>
-        {getAvatarText()}
-      </div>
+      <img
+        className="avatar__image"
+        src={avatar}
+        style={avatarImageStyles}
+        alt="avatar"
+        onError={() => setIsImageValid(false)}
+        ref={avatarRef}
+        onLoad={() => setIsImageValid(true)}
+      />
+
+      {!avatar ||
+        (!isImageValid && (
+          <div
+            className="avatar__background"
+            style={avatarBackgroundStyles}
+            alt="avatar"
+          >
+            <div className="avatar__text" style={avatarTextStyles}>
+              {getAvatarText()}
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

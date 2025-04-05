@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 import "./Header.css";
 import logoImg from "../../images/logo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import Avatar from "../Avatar/Avatar";
 
-function Header({
+const Header = memo(function Header({
   className = "",
   location,
   onHeaderButtonClick = () => {},
@@ -17,7 +17,7 @@ function Header({
 }) {
   let { name, avatar } = useContext(CurrentUserContext);
   name = name || "Username";
-
+  console.log("header has rendered");
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -39,7 +39,7 @@ function Header({
               <button
                 className="header__button"
                 onClick={onHeaderButtonClick}
-                type="text"
+                type="button"
               >
                 + Add clothes
               </button>
@@ -75,6 +75,6 @@ function Header({
       )}
     </header>
   );
-}
+});
 
 export default Header;

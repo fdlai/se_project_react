@@ -9,12 +9,18 @@ export default function RegisterModal({
   onSubmitRegisterModal,
   onFormSubmitFail,
 }) {
-  const { values, setIsSubmitted, handleChange } = useForm({
+  const { values, setIsSubmitted, handleChange, isFormValid } = useForm({
     inputValues: {
       email: "",
       password: "",
       name: "",
       avatarURL: "",
+    },
+    defaultValidities: {
+      emailValid: false,
+      passwordValid: false,
+      nameValid: true,
+      avatarURLValid: true,
     },
     isOpen,
   });
@@ -32,12 +38,9 @@ export default function RegisterModal({
     <ModalWithForm
       title="Sign up"
       onCloseClick={onCloseClick}
-      buttonText="Next"
       handleFormSubmit={handleFormSubmit}
       isOpen={isOpen}
       modalType="register"
-      secondButtonText="or Log in"
-      onSecondButtonClick={onSecondButtonClick}
     >
       {/* -------------------------------- Children
       -------------------------------- */}
@@ -50,7 +53,7 @@ export default function RegisterModal({
           }}
           name="email"
           value={values.email}
-          type="text"
+          type="email"
           placeholder="Email"
           required
         />
@@ -67,6 +70,7 @@ export default function RegisterModal({
           type="text"
           placeholder="Password"
           required
+          minLength={5}
         />
       </label>
       <label className="modal__label">
@@ -93,6 +97,22 @@ export default function RegisterModal({
           placeholder="Avatar URL"
         />
       </label>
+      <div className="modal__buttons-container">
+        <button
+          className={`modal__submit-button modal__submit-button_type_register ${
+            isFormValid && "modal__submit-button_active"
+          }`}
+        >
+          Next
+        </button>
+        <button
+          className="modal__second-button"
+          onClick={onSecondButtonClick}
+          type="button"
+        >
+          or Log in
+        </button>
+      </div>
       {/* -------------------------------- Children
       -------------------------------- */}
     </ModalWithForm>

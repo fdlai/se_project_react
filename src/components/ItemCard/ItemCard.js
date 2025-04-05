@@ -14,6 +14,7 @@ function ItemCard({
   const { _id } = useContext(CurrentUserContext);
 
   useEffect(() => {
+    console.log("useEffect has run");
     if (cardData.likes.includes(_id)) {
       setIsLiked(true);
     } else {

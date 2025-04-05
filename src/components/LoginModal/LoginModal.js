@@ -9,13 +9,19 @@ export default function LoginModal({
   onSubmitLoginModal,
   onFormSubmitFail,
 }) {
-  const { values, handleChange, setIsSubmitted } = useForm({
+  const { values, handleChange, setIsSubmitted, isFormValid } = useForm({
     inputValues: {
       email: "",
       password: "",
     },
+    defaultValidities: {
+      emailValid: false,
+      passwordValid: false,
+    },
     isOpen,
   });
+
+  console.log(isFormValid);
 
   function handleFormSubmit() {
     return onSubmitLoginModal(values)
@@ -32,12 +38,9 @@ export default function LoginModal({
     <ModalWithForm
       title="Log in"
       onCloseClick={onCloseClick}
-      buttonText="Log in"
       handleFormSubmit={handleFormSubmit}
       isOpen={isOpen}
       modalType="login"
-      secondButtonText="or Register"
-      onSecondButtonClick={onSecondButtonClick}
     >
       {/* -------------------------------- Children
       -------------------------------- */}
@@ -50,7 +53,7 @@ export default function LoginModal({
           }}
           name="email"
           value={values.email}
-          type="text"
+          type="email"
           placeholder="Email"
           required
         />
@@ -67,8 +70,25 @@ export default function LoginModal({
           type="text"
           placeholder="Password"
           required
+          minLength={5}
         />
       </label>
+      <div className="modal__buttons-container">
+        <button
+          className={`modal__submit-button modal__submit-button_type_register ${
+            isFormValid && "modal__submit-button_active"
+          }`}
+        >
+          Log in
+        </button>
+        <button
+          className="modal__second-button"
+          onClick={onSecondButtonClick}
+          type="button"
+        >
+          or Register
+        </button>
+      </div>
       {/* -------------------------------- Children
       -------------------------------- */}
     </ModalWithForm>

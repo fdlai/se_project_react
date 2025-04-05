@@ -78,6 +78,7 @@ Plans to add:
 - Track number of likes on an item
 - Use current user's location to retrieve weather data
 - Add dark mode option
+- Custom input validation
 
 ## Contributing
 
@@ -96,6 +97,6 @@ Your Name - [fdlai@yahoo.com](mailto:fdlai@yahoo.com)
 ## Links
 
 - [Figma Design](https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR)
-- [Project Link](https://fdlai.nodnor.com)
+- [Project Link](https://wtwr.open-sky.org)
 - [Repository](https://github.com/fdlai/se_project_react)
 - [se_project_express](https://github.com/fdlai/se_project_express)

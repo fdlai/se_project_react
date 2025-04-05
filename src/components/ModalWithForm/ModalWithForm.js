@@ -4,14 +4,11 @@ import Modal from "../Modal/Modal";
 function ModalWithForm({
   name = "",
   title = "",
-  buttonText = "Submit",
-  secondButtonText = "",
   onCloseClick = () => {},
   children,
   handleFormSubmit,
   isOpen,
   modalType,
-  onSecondButtonClick,
 }) {
   const getTitleClassModifier = () => {
     if (modalType !== "create") {
@@ -39,20 +36,6 @@ function ModalWithForm({
         }}
       >
         {children}
-        <div className="modal__buttons-container">
-          <button
-            className={`modal__submit-button ${getSubmitButtonClassModifier()}`}
-          >
-            {buttonText}
-          </button>
-          <button
-            className="modal__second-button"
-            onClick={onSecondButtonClick}
-            type="button"
-          >
-            {secondButtonText}
-          </button>
-        </div>
       </form>
     </Modal>
   );
