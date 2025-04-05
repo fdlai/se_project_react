@@ -2,7 +2,7 @@ import { processServerResponse } from "./weatherApi";
 
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://api.fdlai.nodnor.com"
+    ? "https://api.wtwr.open-sky.org"
     : "http://localhost:3001";
 
 export const getApiClothingItems = (controller) => {
