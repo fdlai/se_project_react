@@ -38,18 +38,17 @@ function Avatar({ name = null, avatar = null, width = 40 }) {
         onLoad={() => setIsImageValid(true)}
       />
 
-      {!avatar ||
-        (!isImageValid && (
-          <div
-            className="avatar__background"
-            style={avatarBackgroundStyles}
-            alt="avatar"
-          >
-            <div className="avatar__text" style={avatarTextStyles}>
-              {getAvatarText()}
-            </div>
+      {(!avatar || !isImageValid) && (
+        <div
+          className="avatar__background"
+          style={avatarBackgroundStyles}
+          alt="avatar"
+        >
+          <div className="avatar__text" style={avatarTextStyles}>
+            {getAvatarText()}
           </div>
-        ))}
+        </div>
+      )}
     </div>
   );
 }
