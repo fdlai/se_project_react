@@ -1,6 +1,7 @@
 .weather {
   position: relative;
   font-family: "Cabinet Grotesk", "Arial", "sans-serif";
+  min-height: 80px;
 }
 
 .weather__image {

@@ -34,13 +34,35 @@ export const processServerResponse = (res) => {
 };
 
 export function getTempDescription(temperature) {
-  if (temperature >= 86) {
+  if (temperature >= 80) {
     return "hot";
-  } else if (temperature >= 66 && temperature <= 85) {
+  } else if (temperature >= 68 && temperature < 80) {
     return "warm";
-  } else if (temperature <= 65) {
+  } else if (temperature < 68) {
     return "cold";
   }
+}
+
+export function parseWeatherData(data) {
+  const fahrenheit = data.main.temp;
+  const celsius = ((fahrenheit - 32) * 5) / 9;
+  const timeNow = Date.now() / 1000;
+  const sunrise = data.sys.sunrise;
+  const sunset = data.sys.sunset;
+  const isDay = sunrise < timeNow && timeNow < sunset;
+  //condition will be Clear, Clouds, Rain, Drizzle, etc...
+  const condition = data.weather[0].main;
+
+  return {
+    ...data,
+    temp: {
+      F: Math.round(fahrenheit),
+      C: Math.round(celsius),
+    },
+    condition,
+    isDay,
+    tempDescription: getTempDescription(fahrenheit),
+  };
 }
 
 export function getWeatherCardImage(isDay, weatherCondition) {

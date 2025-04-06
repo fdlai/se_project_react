@@ -9,9 +9,7 @@ import ModalWithMessage from "../ModalWithMessage/ModalWithMessage";
 import ModalWithConfirmation from "../ModalWithConfirmation/ModalWithConfirmation";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { getWeather, getTempDescription } from "../../utils/weatherApi";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { getWeather, parseWeatherData } from "../../utils/weatherApi";
 import Profile from "../Profile/Profile";
 import {
   Switch,
@@ -40,7 +38,14 @@ function App() {
   //control the card that is currently selected/opened in the ItemModal
   const [selectedCardData, setSelectedCardData] = useState({});
   //the object returned by the weather api
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState({
+    name: "",
+    temp: { F: 0, C: 0 },
+    condition: "Clear",
+    isDay: true,
+    tempDescription: "warm",
+  });
+  const [isWeatherDataLoaded, setIsWeatherDataLoaded] = useState(false);
   //control the message being used in MessageModal
   const [message, setMessage] = useState("no message set");
   //control the inventory of clothing items that are displayed
@@ -70,21 +75,6 @@ function App() {
   /* -------------------------------------------------------------------------- */
   /*                         Derived and other variables                        */
   /* -------------------------------------------------------------------------- */
-  const temp = useMemo(() => {
-    return weatherData
-      ? {
-          F: Math.round(weatherData.main.temp),
-          C: Math.round(((weatherData.main.temp - 32) * 5) / 9),
-        }
-      : {
-          F: "Loading...",
-          C: "Loading...",
-        };
-  }, [weatherData]);
-
-  const location = weatherData ? weatherData.name : "Loading...";
-
-  const tempDescription = getTempDescription(temp.F); //undefined until weatherData is set to the fetched weather object
 
   //props for the ContextProvider component
   const contextProps = useMemo(() => {
@@ -116,7 +106,8 @@ function App() {
     getWeather(controller)
       .then((data) => {
         console.log(data);
-        setWeatherData(data);
+        setWeatherData(parseWeatherData(data));
+        setIsWeatherDataLoaded(true);
       })
       .catch((err) => {
         setMessage(`Error ${err}. Could not retrieve weather data.`);
@@ -314,25 +305,25 @@ function App() {
       <div className="page">
         <Header
           className="page__header"
-          location={location}
           onHeaderButtonClick={openAddItemModal}
           onRegisterButtonClick={openRegisterModal}
           onLoginButtonClick={openLoginModal}
           isLoggedIn={isLoggedIn}
           tokenChecked={tokenChecked}
+          weatherData={weatherData}
+          isWeatherDataLoaded={isWeatherDataLoaded}
         />
         <Switch>
           <Route exact path="/">
             <Main
               className="page__main"
               onCardImageClick={handleSelectedCardData}
-              temp={temp}
-              tempDescription={tempDescription}
               weatherData={weatherData}
               clothingItems={clothingItems}
               onLikeButtonClick={handleLikeButtonClick}
               onFetchError={handleErrorMessage}
               isLoggedIn={isLoggedIn}
+              isWeatherDataLoaded={isWeatherDataLoaded}
             />
           </Route>
           <ProtectedRoute

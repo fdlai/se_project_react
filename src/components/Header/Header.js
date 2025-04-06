@@ -8,20 +8,28 @@ import Avatar from "../Avatar/Avatar";
 
 const Header = memo(function Header({
   className = "",
-  location,
   onHeaderButtonClick = () => {},
   isLoggedIn,
   onRegisterButtonClick,
   onLoginButtonClick,
   tokenChecked,
+  weatherData,
+  isWeatherDataLoaded,
 }) {
   let { name, avatar } = useContext(CurrentUserContext);
   name = name || "Username";
-  console.log("header has rendered");
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
+
+  function getLocation() {
+    if (isWeatherDataLoaded) {
+      return weatherData.name;
+    } else {
+      return "Loading...";
+    }
+  }
 
   return (
     <header className={`header ${className}`}>
@@ -29,7 +37,7 @@ const Header = memo(function Header({
         <Link to="/" className="header__link">
           <img className="header__logo" src={logoImg} alt="logo" />
         </Link>
-        <div className="header__date">{`${currentDate}, ${location}`}</div>
+        <div className="header__date">{`${currentDate}, ${getLocation()}`}</div>
       </div>
       {tokenChecked && (
         <div className="header__avatar-container">

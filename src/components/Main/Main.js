@@ -8,21 +8,27 @@ function Main({
   className = "",
   onCardImageClick = () => {},
   temp,
-  tempDescription,
   weatherData,
   clothingItems,
   onLikeButtonClick,
   onFetchError,
   isLoggedIn,
+  isWeatherDataLoaded,
 }) {
-  const filteredClothingItems = clothingItems?.filter((item) => {
-    return item.weather.toLowerCase() === tempDescription;
-  });
+  const filteredClothingItems = isWeatherDataLoaded
+    ? clothingItems?.filter((item) => {
+        return item.weather.toLowerCase() === weatherData.tempDescription;
+      })
+    : clothingItems;
 
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
   const getTemp = () => {
-    return currentTemperatureUnit === "F" ? `${temp.F}° F` : `${temp.C}° C`;
+    if (isWeatherDataLoaded) {
+      return `${weatherData.temp[currentTemperatureUnit]}° ${currentTemperatureUnit}`;
+    } else {
+      return "Loading...";
+    }
   };
 
   return (
@@ -31,6 +37,8 @@ function Main({
         className="page__weather-card"
         temp={temp}
         weatherData={weatherData}
+        isWeatherDataLoaded={isWeatherDataLoaded}
+        getTemp={getTemp}
       />
       <section className="cards">
         <h2 className="cards__title">
