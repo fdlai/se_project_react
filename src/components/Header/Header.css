@@ -62,6 +62,7 @@
 
 .header__name {
   text-align: right;
+  color: black;
 }
 
 .header__name:hover {
