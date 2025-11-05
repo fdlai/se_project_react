@@ -78,3 +78,16 @@ export const unLikeItem = (id, token) => {
     return processServerResponse(res);
   });
 };
+
+export function getCoordinatesForLocation(query) {
+  return fetch(
+    `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=1`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "WTWR (https://wtwr.open-sky.org/)",
+      },
+    }
+  ).then(processServerResponse);
+}

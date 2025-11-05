@@ -9,3 +9,15 @@ export function createColor() {
 
   return `radial-gradient(69% 51% at 77% 22%, rgb(${r}, ${g}, ${b}), rgba(${r}, ${g}, ${b}, 0.4))`;
 }
+
+export function storeUserEnteredLocation({ latitude, longitude }) {
+  localStorage.setItem("location", JSON.stringify({ latitude, longitude }));
+}
+
+export function resetUserEnteredLocation() {
+  localStorage.removeItem("location");
+}
+
+export function getUserEnteredLocation() {
+  return localStorage.getItem("location");
+}

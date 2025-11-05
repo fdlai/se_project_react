@@ -23,11 +23,17 @@ import {
   updateUserInfo,
   likeItem,
   unLikeItem,
+  getCoordinatesForLocation,
 } from "../../utils/api";
 import { register, login, getCurrentUsersInfo } from "../../utils/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import ContextProvider from "../ContextProvider/ContextProvider";
+import LocationModal from "../LocationModal/LocationModal";
+import {
+  getUserEnteredLocation,
+  storeUserEnteredLocation,
+} from "../../utils/helpers";
 
 function App() {
   /* -------------------------------------------------------------------------- */
@@ -67,6 +73,7 @@ function App() {
   const [tokenChecked, setTokenChecked] = useState(
     !localStorage.getItem("jwt")
   );
+  const [isLockedUntilSubmit, setIsLockedUntilSubmit] = useState(false);
 
   /* ------------------------------- Other Hooks ------------------------------ */
 
@@ -101,20 +108,7 @@ function App() {
   }, [activeModal]);
 
   //fetches weather data from the API and assigns it to the weatherData state
-  useEffect(() => {
-    const controller = new AbortController();
-    getWeather(controller)
-      .then((data) => {
-        console.log(data);
-        setWeatherData(parseWeatherData(data));
-        setIsWeatherDataLoaded(true);
-      })
-      .catch((err) => {
-        setMessage(`Error ${err}. Could not retrieve weather data.`);
-        setMessageModalOpen(true);
-      });
-    return () => controller.abort();
-  }, []);
+  useEffect(() => {}, []);
 
   //fetch clothing items from server and assign to clothingItems state
   useEffect(() => {
@@ -148,6 +142,16 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const location = getUserEnteredLocation();
+    if (location) {
+      const parsedLocation = JSON.parse(location);
+      getAndDisplayWeatherInfo(parsedLocation);
+    } else {
+      requestUserLocation();
+    }
+  }, []);
+
   /* -------------------------------------------------------------------------- */
   /*                                  Functions                                 */
   /* -------------------------------------------------------------------------- */
@@ -178,6 +182,37 @@ function App() {
   // const openModal = (modalName) => {
   //   setActiveModal(modalName);
   // };
+
+  function requestUserLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+        });
+        getAndDisplayWeatherInfo(position.coords);
+      },
+      (error) => {
+        console.log(error);
+        setIsLockedUntilSubmit(true);
+        openLocationModal();
+      }
+    );
+  }
+
+  function getAndDisplayWeatherInfo({ latitude, longitude }) {
+    return getWeather({ latitude, longitude })
+      .then((data) => {
+        console.log(data);
+        setWeatherData(parseWeatherData(data));
+        setIsWeatherDataLoaded(true);
+      })
+      .catch((err) => {
+        setMessage(`Error ${err}. Could not retrieve weather data.`);
+        setMessageModalOpen(true);
+        throw new Error(err);
+      });
+  }
 
   const handleLogin = ({ name = "", email, avatar = "", _id }) => {
     setIsLoggedIn(true);
@@ -293,8 +328,29 @@ function App() {
       });
   }
   function handleErrorMessage(err, message) {
+    console.error(err);
     setMessage(`${err}. ${message}`);
     setMessageModalOpen(true);
+  }
+
+  function openLocationModal() {
+    setActiveModal("location");
+  }
+
+  function handleLocationModalSubmit(query) {
+    return getCoordinatesForLocation(query)
+      .then((data) => {
+        const location = {
+          latitude: data[0].lat,
+          longitude: data[0].lon,
+        };
+        storeUserEnteredLocation(location);
+        return getAndDisplayWeatherInfo(location);
+      })
+      .then(() => {
+        closeModal();
+        setIsLockedUntilSubmit(false);
+      });
   }
 
   /* -------------------------------------------------------------------------- */
@@ -312,6 +368,7 @@ function App() {
           tokenChecked={tokenChecked}
           weatherData={weatherData}
           isWeatherDataLoaded={isWeatherDataLoaded}
+          onDateClick={openLocationModal}
         />
         <Switch>
           <Route exact path="/">
@@ -400,6 +457,13 @@ function App() {
           isOpen={activeModal === "edit-profile"}
           onCloseClick={closeModal}
           onSubmitEditProfileModal={handleEditProfileModalSubmit}
+          onFormSubmitFail={handleErrorMessage}
+        />
+        <LocationModal
+          isOpen={activeModal === "location"}
+          onCloseClick={closeModal}
+          isLockedUntilSubmit={isLockedUntilSubmit}
+          handleLocationModalSubmit={handleLocationModalSubmit}
           onFormSubmitFail={handleErrorMessage}
         />
       </div>

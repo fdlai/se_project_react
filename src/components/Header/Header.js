@@ -15,6 +15,7 @@ const Header = memo(function Header({
   tokenChecked,
   weatherData,
   isWeatherDataLoaded,
+  onDateClick,
 }) {
   let { name, avatar } = useContext(CurrentUserContext);
   name = name || "Username";
@@ -37,7 +38,10 @@ const Header = memo(function Header({
         <Link to="/" className="header__link">
           <img className="header__logo" src={logoImg} alt="logo" />
         </Link>
-        <div className="header__date">{`${currentDate}, ${getLocation()}`}</div>
+        <button
+          onClick={onDateClick}
+          className="header__date"
+        >{`${currentDate}, ${getLocation()}`}</button>
       </div>
       {tokenChecked && (
         <div className="header__avatar-container">

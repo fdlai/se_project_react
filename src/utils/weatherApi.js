@@ -17,10 +17,9 @@ const APIkey = "6672e1b00e396679abc9813db01c701f";
 const latitude = "27.964157";
 const longitude = "-82.452606";
 
-export const getWeather = (controller) => {
+export const getWeather = ({ latitude, longitude }) => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`,
-    { signal: controller.signal }
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
   ).then((res) => {
     return processServerResponse(res);
   });
