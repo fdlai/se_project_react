@@ -1,8 +1,8 @@
 import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
-import ItemCard from "../ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { useContext } from "react";
+import ItemCardGrid from "../ItemCardGrid/ItemCardGrid";
 
 function Main({
   className = "",
@@ -46,18 +46,13 @@ function Main({
         </h2>
         {clothingItems ? (
           <ul className="cards__list">
-            {filteredClothingItems.map((cardData) => {
-              return (
-                <ItemCard
-                  key={cardData._id}
-                  cardData={cardData}
-                  onCardImageClick={onCardImageClick}
-                  onLikeButtonClick={onLikeButtonClick}
-                  onFetchError={onFetchError}
-                  isLoggedIn={isLoggedIn}
-                />
-              );
-            })}
+            <ItemCardGrid
+              items={filteredClothingItems}
+              onCardImageClick={onCardImageClick}
+              onLikeButtonClick={onLikeButtonClick}
+              onFetchError={onFetchError}
+              isLoggedIn={isLoggedIn}
+            />
           </ul>
         ) : (
           <div>Loading...</div>

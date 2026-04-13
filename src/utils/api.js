@@ -2,14 +2,14 @@ import { processServerResponse } from "./weatherApi";
 
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://api.wtwr.open-sky.org"
+    ? "https://api-wtwr.fredlai.dev"
     : "http://localhost:3001";
 
 export const getApiClothingItems = (controller) => {
   return fetch(`${baseUrl}/items`, { signal: controller.signal }).then(
     (res) => {
       return processServerResponse(res);
-    }
+    },
   );
 };
 
@@ -88,6 +88,6 @@ export function getCoordinatesForLocation(query) {
         "Content-Type": "application/json",
         "User-Agent": "WTWR (https://wtwr.open-sky.org/)",
       },
-    }
+    },
   ).then(processServerResponse);
 }

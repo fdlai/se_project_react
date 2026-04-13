@@ -1,5 +1,5 @@
 import "./ClothesSection.css";
-import ItemCard from "../ItemCard/ItemCard";
+import ItemCardGrid from "../ItemCardGrid/ItemCardGrid";
 
 function ClothesSection({
   clothingItems,
@@ -10,18 +10,13 @@ function ClothesSection({
 }) {
   return (
     <ul className="profile__items">
-      {clothingItems?.map((cardData) => {
-        return (
-          <ItemCard
-            key={cardData._id}
-            cardData={cardData}
-            onCardImageClick={onCardImageClick}
-            onLikeButtonClick={onLikeButtonClick}
-            onFetchError={onFetchError}
-            isLoggedIn={isLoggedIn}
-          />
-        );
-      })}
+      <ItemCardGrid
+        items={clothingItems}
+        onCardImageClick={onCardImageClick}
+        onLikeButtonClick={onLikeButtonClick}
+        onFetchError={onFetchError}
+        isLoggedIn={isLoggedIn}
+      />
     </ul>
   );
 }
