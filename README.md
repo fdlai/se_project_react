@@ -1,103 +1,139 @@
 # WTWR (What to Wear?)
 
-## Table of Contents
+## 🌐 Live Application
 
-1. [About the Project](#about-the-project)
-2. [Project Features](#project-features)
-3. [Getting Started](#getting-started)
-   - [Prerequisites](#prerequisites)
-   - [Installation](#installation)
-   - [Usage](#usage)
-4. [Plan on Improving the Project](#plan-on-improving-the-project)
-5. [Contributing](#contributing)
-6. [Contact](#contact)
-7. [Links](#links)
+Frontend: https://wtwr.fredlai.dev
+Backend API: https://api-wtwr.fredlai.dev
 
-## About the Project
+---
 
-The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user. The WTWR project utilizes a custom backend server: [se_project_express](https://github.com/fdlai/se_project_express).
+## 📌 About the Project
 
-## Project Features
+WTWR (What to Wear?) is a full-stack application that recommends clothing based on real-time weather data.
+
+The frontend fetches weather data and user-specific clothing items from a custom backend API, processes the information, and dynamically displays outfit recommendations.
+
+---
+
+## 🏗️ Architecture
+
+Frontend (GitHub Pages)
+↓
+Backend API (Docker on Google Cloud VM)
+↓
+MongoDB (Docker container with persistent volume)
+
+- Frontend is deployed via GitHub Pages
+- Backend is containerized using Docker and hosted on a cloud VM
+- MongoDB runs in a Docker container with persistent storage
+- Nginx is used as a reverse proxy for routing requests
+
+---
+
+## 🔗 Backend Integration
+
+This frontend communicates with a production backend API that is:
+
+- Containerized with Docker
+- Deployed on a cloud VM
+- Connected to a MongoDB database
+
+Backend repository:
+https://github.com/fdlai/se_project_express
+
+---
+
+## ✨ Features
 
 - Semantic HTML5
-- Figma design
-- Flexbox
-- Flat BEM
-- A custom form
-- Responsive design
-- Media Queries
-- Sticky footer
-- React Components
-- Custom Backend Server
-- API fetching
-- User Registration
-- Logging in and out
-- User Profile Section
-- Authorized Routes
+- Responsive design (Flexbox, Media Queries)
+- React component-based architecture
+- User authentication (signup/login/logout)
+- Protected routes
+- Weather-based clothing recommendations
+- User profile management
+- API data fetching
+- Full-stack deployment (frontend + backend + database)
+- Cloud-hosted backend (Google Cloud VM)
+- Docker-based backend infrastructure
 
-## Getting Started
+---
+
+## 🛠️ Tech Stack
+
+- React
+- JavaScript (ES6+)
+- HTML5 / CSS3
+- GitHub Pages (frontend hosting)
+- REST API integration
+
+---
+
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
-
-Ensure you have the following installed:
 
 - Node.js
 - npm
 
 ### Installation
 
-1. Clone the repository:
-   \`\`\`sh
-   git clone https://github.com/fdlai/se_project_react.git
-   \`\`\`
-2. Navigate to the project directory:
-   \`\`\`sh
-   cd se_project_react
-   \`\`\`
-3. Install dependencies:
-   \`\`\`sh
-   npm install
-   \`\`\`
-4. Set up the backend server by following the instructions in the [se_project_express](https://github.com/fdlai/se_project_express) repository.
+```bash
+git clone https://github.com/fdlai/se_project_react.git
+cd se_project_react
+npm install
+```
 
-### Usage
+### Running the App
 
-1. Start the backend server.
-2. Start the frontend application:
-   \`\`\`sh
-   npm start
-   \`\`\`
-3. Open your browser and navigate to \`http://localhost:3000\` to see the application in action.
+```bash
+npm start
+```
 
-## Plan on Improving the Project
+Then open:
 
-Plans to add:
+```
+http://localhost:3000
+```
 
-- Multiple pages, to support large number of clothing items
-- Ability to edit clothing items
-- More advanced filtering of clothing items (rain, snow, show only my items, show favorites 1st, etc...)
-- Some way to search or sort clothing items
-- Track number of likes on an item
-- Add dark mode option
-- Custom input validation
+⚠️ Note: Requires backend server running locally (see backend repo).
 
-## Contributing
+---
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## 🔮 Future Improvements
 
-1. Fork the Project.
-2. Create your Feature Branch (\`git checkout -b feature/AmazingFeature\`).
-3. Commit your Changes (\`git commit -m 'Add some AmazingFeature'\`).
-4. Push to the Branch (\`git push origin feature/AmazingFeature\`).
-5. Open a Pull Request.
+- Pagination for large clothing collections
+- Advanced filtering (weather conditions, favorites, user items)
+- Search and sorting functionality
+- Item likes system
+- Dark mode
+- Improved form validation
 
-## Contact
+---
 
-Your Name - [fdlai@yahoo.com](mailto:fdlai@yahoo.com)
+## 🤝 Contributing
 
-## Links
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes
+4. Push to your branch
+5. Open a Pull Request
 
-- [Figma Design](https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR)
-- [Project Link](https://wtwr.fredlai.dev)
-- [Repository](https://github.com/fdlai/se_project_react)
-- [se_project_express](https://github.com/fdlai/se_project_express)
+---
+
+## 📬 Contact
+
+Fred Lai
+[fdlai@yahoo.com](mailto:fdlai@yahoo.com)
+
+---
+
+## 🔗 Links
+
+- Live Site: https://wtwr.fredlai.dev
+- Backend API: https://api-wtwr.fredlai.dev
+- Frontend Repo: https://github.com/fdlai/se_project_react
+- Backend Repo: https://github.com/fdlai/se_project_express
+- Figma Design: https://www.figma.com/file/DTojSwldenF9UPKQZd6RRb/Sprint-10%3A-WTWR
+
+---
